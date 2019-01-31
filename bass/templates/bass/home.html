@@ -1,0 +1,22 @@
+{% extends "bass/base.html" %}
+{% block content %}
+	<h1>Pictures</h1>
+	
+	{% for url,tag in data %}
+		<img src="{{ url }}" /><br>
+		<p>{{ tag }}</p>
+	{% endfor %}
+
+
+	{% comment , this prints each tag%}
+	{% for url,tag in data %}
+		<img src="{{ url }}" /><br>
+		{% for x in tag %}
+			{{ x }}
+		{% endfor %}
+		<br>
+	{% endfor %}
+	{% endcomment %}
+
+{% endblock content %}
+
