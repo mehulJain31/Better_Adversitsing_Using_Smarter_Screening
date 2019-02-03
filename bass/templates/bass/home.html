@@ -1,10 +1,26 @@
 {% extends "bass/base.html" %}
 {% block content %}
-	<h1>Pictures</h1>
+	
 	
 	{% for url,tag in data %}
-		<img src="{{ url }}" /><br>
-		<p>{{ tag }}</p>
+		
+
+
+		<article class="media content-section">
+		  <div class="media-body">
+		    <div class="article-metadata">
+		      <a class="mr-2" href="#">Eric Sauber</a>
+
+		      <small class="text-muted">| Feb 2</small>
+		    </div>
+		    <h2><a class="article-title" href="#">Picture</a></h2>
+		    <img src="{{ url }}" /><br>
+			
+			<small class="text-muted">{{ tag }}</small>
+		  </div>
+		</article>
+
+
 	{% endfor %}
 
 

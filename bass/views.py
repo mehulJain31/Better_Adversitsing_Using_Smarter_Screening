@@ -11,6 +11,8 @@ def home(request):
 
 	# returns URL's of most recent 20 (or 17) photos
 	urls = instaApiCall()
+
+	"""
 	allTags = googleApiCall(urls)
 	tags = []
 	tag = []
@@ -25,6 +27,17 @@ def home(request):
 
 	print('URL size: ' , len(urls))
 	print('TAGS\n' , tags)
+
+	"""
+
+	tags = [['tag1','tag2','tag3','tag4','tag5'],
+		    ['tag1','tag2','tag3','tag4','tag5'],
+		    ['tag1','tag2','tag3','tag4','tag5'],
+		    ['tag1','tag2','tag3','tag4','tag5'],
+		    ['tag1','tag2','tag3','tag4','tag5'],
+		    ['tag1','tag2','tag3','tag4','tag5'],
+		    ['tag1','tag2','tag3','tag4','tag5']]
+
 
 	context = {
 		'data': zip(urls,tags),
@@ -67,10 +80,10 @@ def googleApiCall(urls) :
 def about(request):
 	return render(request, 'bass/about.html', {'title': 'About'})
 
-
+"""
 #---------#---------#---------#---------#---------#--------#
 def _main() :
-  instaApiCall()
+  #instaApiCall()
 
 
 
@@ -79,6 +92,6 @@ if __name__ == '__main__' :
   _main()
 
 #---------#---------#---------#---------#---------#--------#
-
+"""
 
 
