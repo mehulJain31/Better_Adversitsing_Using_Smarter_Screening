@@ -12,7 +12,7 @@ def home(request):
 	# returns URL's of most recent 20 (or 17) photos
 	urls = instaApiCall()
 
-	"""
+	
 	allTags = googleApiCall(urls)
 	tags = []
 	tag = []
@@ -27,16 +27,19 @@ def home(request):
 
 	print('URL size: ' , len(urls))
 	print('TAGS\n' , tags)
+	
+
+	
 
 	"""
-
-	tags = [['tag1','tag2','tag3','tag4','tag5'],
-		    ['tag1','tag2','tag3','tag4','tag5'],
+	tags = [['Natural foods','Food','Whole food','Superfood','Vegan nutrition'],
+			['Crowd','People','Audience','Event','Festival'],
 		    ['tag1','tag2','tag3','tag4','tag5'],
 		    ['tag1','tag2','tag3','tag4','tag5'],
 		    ['tag1','tag2','tag3','tag4','tag5'],
 		    ['tag1','tag2','tag3','tag4','tag5'],
 		    ['tag1','tag2','tag3','tag4','tag5']]
+	"""
 
 
 	context = {
@@ -54,7 +57,7 @@ def instaApiCall():
 	urls = []
 
 	#gets the 7 most recent photos
-	for x in range(7) :
+	for x in range(10) :
 		urls.append(instaData['data'][x]['images']['low_resolution']['url'])
 
 	return urls
@@ -70,9 +73,22 @@ def googleApiCall(urls) :
 	#gets tags for the urls
 	for x in range(len(urls)) : 
 		image.source.image_uri = urls[x]
-		response = client.label_detection(image=image)
-		labels = response.label_annotations
-		tags.append(labels)
+		#response = client.label_detection(image=image)
+		#labels = response.label_annotations
+
+		response = client.logo_detection(image=image)
+		logos = response.logo_annotations
+		#print(logos.description)
+
+		print("here")
+
+		print(len(logos))
+
+		for logo in logos:
+			print(logo.description)
+
+
+		tags.append(logos)
 
 	return tags
 	
