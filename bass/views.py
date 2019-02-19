@@ -12,6 +12,7 @@ def home(request):
 	tags = []
 	tag = []
 	logos = []
+	text = []
 
 	# returns URL's of most recent 20 (or 17) photos
 	urls = instaApiCall()
@@ -35,13 +36,21 @@ def home(request):
 			tag.append(eachPic.description)
 		logos.append(tag)
 		tag = []
+
+	# saves descriptions of logos from allTags
+	# this is a list of lists
+	for all_text in results[2] :
+		for eachPic in all_text :
+			tag.append(eachPic.description)
+		text.append(tag)
+		tag = []
 	
 	print('tags' , tags)
 	print('logos' , logos)
 	#test
 
 	context = {
-		'data': zip(urls,tags,logos),
+		'data': zip(urls,tags,logos,text),
 		'something': 'hey guys'
 	}
 	
@@ -68,6 +77,7 @@ def googleApiCall(urls) :
 
 	logos_list = []
 	labels_list = []
+	text_list = []
 
 	#gets tags for the urls
 	for x in range(len(urls)) : 
@@ -77,12 +87,17 @@ def googleApiCall(urls) :
 		labels = response.label_annotations
 		labels_list.append(labels)
 
+		response = client.text_detection(image=image)
+		texts = response.text_annotations
+		text_list.append(texts)
+
+
 		response = client.logo_detection(image=image)
 		logos = response.logo_annotations
 		logos_list.append(logos)
 
 		
-	return logos_list, labels_list
+	return logos_list, labels_list, text_list
 	
 #---------#---------#---------#---------#---------#--------#
 def about(request):

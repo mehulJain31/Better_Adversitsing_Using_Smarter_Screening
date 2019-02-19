@@ -2,7 +2,7 @@
 {% block content %}
 	
 	
-	{% for url,logo,tag in data %}
+	{% for url,logo,tag,text in data %}
 		
 		<article class="media content-section">
 		  <div class="media-body">
@@ -15,7 +15,8 @@
 		    <img src="{{ url }}" /><br>
 			
 			<small class="text-muted">logos: {{ logo }}</small><br>
-			<small class="text-muted">tags: {{ tag }}</small>
+			<small class="text-muted">tags: {{ tag }}</small><br>
+			<small class="text-muted">text: {{ text }}</small>
 			
 		  </div>
 		</article>
