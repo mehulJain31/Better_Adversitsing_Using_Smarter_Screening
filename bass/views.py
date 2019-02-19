@@ -38,6 +38,7 @@ def home(request):
 	
 	print('tags' , tags)
 	print('logos' , logos)
+	#test
 
 	context = {
 		'data': zip(urls,tags,logos),
