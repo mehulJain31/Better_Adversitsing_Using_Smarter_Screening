@@ -20,7 +20,15 @@ def home(request):
 	
 	# results[0] : labels / tags
 	# results[1] : logos
-	
+	# results[2] : text 
+
+
+	########################################################
+	#
+	# TO DO : Make this loop section better / more efficient
+	#
+	########################################################
+
 	# saves descriptions of labels from allTags
 	# this is a list of lists
 	for all_labels in results[0] :
@@ -37,7 +45,7 @@ def home(request):
 		logos.append(tag)
 		tag = []
 
-	# saves descriptions of logos from allTags
+	# saves descriptions of text from allTags
 	# this is a list of lists
 	for all_text in results[2] :
 		for eachPic in all_text :
@@ -45,10 +53,7 @@ def home(request):
 		text.append(tag)
 		tag = []
 	
-	print('tags' , tags)
-	print('logos' , logos)
-	#test
-
+	
 	context = {
 		'data': zip(urls,tags,logos,text),
 		'something': 'hey guys'
@@ -63,7 +68,7 @@ def instaApiCall():
 	
 	urls = []
 
-	#gets the 7 most recent photos
+	#gets the 10 most recent photos
 	for x in range(10) :
 		urls.append(instaData['data'][x]['images']['low_resolution']['url'])
 
@@ -90,7 +95,6 @@ def googleApiCall(urls) :
 		response = client.text_detection(image=image)
 		texts = response.text_annotations
 		text_list.append(texts)
-
 
 		response = client.logo_detection(image=image)
 		logos = response.logo_annotations
