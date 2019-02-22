@@ -2,7 +2,7 @@
 {% block content %}
 	
 	
-	{% for url,logo,tag,text in data %}
+	{% for url,logo,tag,text,instaDesc,hashtags in data %}
 		
 		<article class="media content-section">
 		  <div class="media-body">
@@ -16,7 +16,13 @@
 			
 			<small class="text-muted">logos: {{ logo }}</small><br>
 			<small class="text-muted">tags: {{ tag }}</small><br>
-			<small class="text-muted">text: {{ text }}</small>
+			<small class="text-muted">text: {{ text }}</small><br>
+			<small class="text-muted">insta description: {{ instaDesc }}</small><br>
+			<small class="text-muted">hashtags: {{ hashtags }}</small><br>
+			
+
+			
+			
 			
 		  </div>
 		</article>

@@ -2,6 +2,7 @@ from django.shortcuts import render
 import requests, os, json
 from google.cloud import vision
 from google.cloud.vision import types
+import re
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'client_secrets.json'
 
@@ -13,9 +14,11 @@ def home(request):
 	tag = []
 	logos = []
 	text = []
+	instaDesc = []
+	hashtags = []
 
 	# returns URL's of most recent 20 (or 17) photos
-	urls = instaApiCall()
+	urls, instaDesc, hashtags = instaApiCall()
 	results = googleApiCall(urls)
 	
 	# results[0] : labels / tags
@@ -52,11 +55,13 @@ def home(request):
 			tag.append(eachPic.description)
 		text.append(tag)
 		tag = []
+
 	
 	
 	context = {
-		'data': zip(urls,tags,logos,text),
+		'data': zip(urls, tags, logos, text, instaDesc, hashtags),
 		'something': 'hey guys'
+		
 	}
 	
 	return render(request, 'bass/home.html', context ) 
@@ -67,14 +72,38 @@ def instaApiCall():
 	instaData = r.json()
 	
 	urls = []
+	instaDesc = []
+	hashtags = []
 
-	#gets the 10 most recent photos
+	#print('instaData', instaData)
+
+	for data in instaData:
+		print(instaData,"\n\n\n")
+
+	#gets the 5 most recent photos
 	for x in range(10) :
 		urls.append(instaData['data'][x]['images']['low_resolution']['url'])
 
-	return urls
+		
+		if ((instaData['data'][x]['caption']) is not None) :
+			instaDesc.append(instaData['data'][x]['caption']['text'])
+			
+			tempString=''.join(instaDesc[x])
+			print(tempString)
 
-#---------#---------#---------#---------#---------#--------#
+			tags=re.findall(r"#(\w+)",tempString)
+			print(tags)
+
+			hashtags.append(tags)
+		else :
+			instaDesc.append('No description')
+			hashtags.append('has no hashtags')
+
+	
+
+	return urls, instaDesc, hashtags
+
+#---------#---------#---------#---------#---------#--------
 def googleApiCall(urls) :
 	
 	client = vision.ImageAnnotatorClient()
