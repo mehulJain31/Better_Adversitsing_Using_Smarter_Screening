@@ -57,7 +57,7 @@ def home(request):
 		tag = []
 
 	
-	
+
 	context = {
 		'data': zip(urls, tags, logos, text, instaDesc, hashtags),
 		'something': 'hey guys'
@@ -96,8 +96,8 @@ def instaApiCall():
 
 			hashtags.append(tags)
 		else :
-			instaDesc.append('No description')
-			hashtags.append('has no hashtags')
+			instaDesc.append([])
+			hashtags.append([])
 
 	
 
