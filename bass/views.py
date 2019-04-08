@@ -68,7 +68,8 @@ def home(request):
 
 #---------#---------#---------#---------#---------#--------#
 def instaApiCall():
-	r = requests.get("https://api.instagram.com/v1/users/self/media/recent/?access_token=10707224361.97fec5c.93afb151e0c9499187c2794dbd9cdb29")
+	
+	r = requests.get("https://api.instagram.com/v1/users/self/media/recent/?access_token=ACCESS_TOKEN")
 	instaData = r.json()
 	
 	urls = []
