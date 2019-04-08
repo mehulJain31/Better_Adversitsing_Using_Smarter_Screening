@@ -75,24 +75,42 @@ def instaApiCall():
 	instaDesc = []
 	hashtags = []
 
-	print('instaData', instaData)
+	
+	fullname = instaData['data'][0]['user']['full_name']
+	username = instaData['data'][0]['user']['username']
 
-	#for data in instaData:
-		#print(data,"\n\n\n")
+	print('\n')
+	print('FULL NAME:', fullname)
+	print('USER NAME:', username)
+	print('\n')
 
-	#gets the 5 most recent photos
-	for x in range(10) :
+
+
+	#gets the 3 most recent photos
+	for x in range(5) :
 		urls.append(instaData['data'][x]['images']['low_resolution']['url'])
 
+		print('url:' , instaData['data'][x]['images']['low_resolution']['url'])
+		print('like count:', instaData['data'][x]['likes']['count'] )
+		print('comment count:', instaData['data'][x]['comments']['count'] )
+		
+		if ((instaData['data'][x]['caption']) is not None) :
+			print('caption:' , instaData['data'][x]['caption']['text'])
+		else :
+			print('caption: none')
+
+		print('tags', instaData['data'][x]['tags'] )
+		print('\n')
+	
 		
 		if ((instaData['data'][x]['caption']) is not None) :
 			instaDesc.append(instaData['data'][x]['caption']['text'])
 			
 			tempString=''.join(instaDesc[x])
-			print(tempString)
+			#print(tempString)
 
 			tags=re.findall(r"#(\w+)",tempString)
-			print(tags)
+			#print(tags)
 
 			hashtags.append(tags)
 		else :
