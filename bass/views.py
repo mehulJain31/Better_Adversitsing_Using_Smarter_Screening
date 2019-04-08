@@ -75,10 +75,10 @@ def instaApiCall():
 	instaDesc = []
 	hashtags = []
 
-	#print('instaData', instaData)
+	print('instaData', instaData)
 
-	for data in instaData:
-		print(instaData,"\n\n\n")
+	#for data in instaData:
+		#print(data,"\n\n\n")
 
 	#gets the 5 most recent photos
 	for x in range(10) :
