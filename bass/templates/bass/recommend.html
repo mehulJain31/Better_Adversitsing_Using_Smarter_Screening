@@ -1,0 +1,38 @@
+{% extends "bass/base.html" %}
+{% block content %}
+    <br>
+    <br>
+    <h1 style="font-size:100%;">Recommend</h1>
+    <body>
+    <form action='advertiserDetail.php' name="advertiserForm" method="post" id="advertiserForm">
+        <label>Company Name:</label>
+        <input type="text" name="companyName" placeholder="Enter Company Name"><br>
+        <br>
+        <br>
+        <label>Select the Category</label>
+        <select>
+            <option value="clothes">Clothes</option>
+            <option value="cars">Cars</option>
+            <option value="technology">Technology</option>
+            <option value="fitness">Fitness</option>
+            <option value="perfumes">Perfumes</option>
+            <option value="gaming">Gaming</option>
+        </select>
+        <br>
+        <br>
+        <label>Tags:</label>
+        <br>
+        <textarea id="hashtags"rows="4" cols="50">
+        </textarea>
+        <br>
+        <br>
+        <br>
+        <label>Minimum Followers</label>
+        <input type="text" name="minFollowers"><br>
+        <br>
+        <br>
+        <input type="submit" name='submitButton' id='submitButton'value="Results">
+        </form>
+    </body>
+
+{% endblock content %}
