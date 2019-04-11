@@ -68,38 +68,52 @@ def home(request):
 
 #---------#---------#---------#---------#---------#--------#
 def instaApiCall():
-	r = requests.get("https://api.instagram.com/v1/users/self/media/recent/?access_token=10707224361.97fec5c.93afb151e0c9499187c2794dbd9cdb29")
+	
+
+	r = requests.get("https://api.instagram.com/v1/users/self/media/recent/?access_token=12497873753.91017a2.fae49190455746d3b40c891a154d316d")
 	instaData = r.json()
 	
 	urls = []
 	instaDesc = []
 	hashtags = []
 
-	#print('instaData', instaData)
 
-	for data in instaData:
-		print(instaData,"\n\n\n")
+	fullname = instaData['data'][0]['user']['full_name']
+	username = instaData['data'][0]['user']['username']
+	
+	print('\n')
+	print('FULL NAME:', fullname)
+	print('USER NAME:', username)
+	print('\n')
 
-	#gets the 5 most recent photos
-	for x in range(10) :
+	
+	# gets 5 most recent pics 
+	for x in range(5) :
 		urls.append(instaData['data'][x]['images']['low_resolution']['url'])
-
-		
+	
+		print('url:' , instaData['data'][x]['images']['low_resolution']['url'])
+		print('like count:', instaData['data'][x]['likes']['count'] )
+		print('comment count:', instaData['data'][x]['comments']['count'] )
+	
+		if ((instaData['data'][x]['caption']) is not None) :
+			print('caption:' , instaData['data'][x]['caption']['text'])
+			print('\n')
+		else :
+			print('caption: none')
+			print('tags', instaData['data'][x]['tags'] )
+			print('\n')
+	
+	
 		if ((instaData['data'][x]['caption']) is not None) :
 			instaDesc.append(instaData['data'][x]['caption']['text'])
 			
 			tempString=''.join(instaDesc[x])
-			print(tempString)
-
 			tags=re.findall(r"#(\w+)",tempString)
-			print(tags)
-
 			hashtags.append(tags)
 		else :
 			instaDesc.append([])
 			hashtags.append([])
 
-	
 
 	return urls, instaDesc, hashtags
 
