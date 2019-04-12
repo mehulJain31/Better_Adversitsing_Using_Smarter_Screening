@@ -4,7 +4,15 @@ from google.cloud import vision
 from google.cloud.vision import types
 import re
 
+from .Post import Post
+from .Influencer import Influencer
+
+
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'client_secrets.json'
+
+
+
+
 
 
 #---------#---------#---------#---------#---------#--------#
@@ -17,14 +25,25 @@ def home(request):
 	instaDesc = []
 	hashtags = []
 
-	# returns URL's of most recent 20 (or 17) photos
-	urls, instaDesc, hashtags = instaApiCall()
-	results = googleApiCall(urls)
-	
-	# results[0] : labels / tags
-	# results[1] : logos
-	# results[2] : text 
 
+	# returns URL's of most recent 20 (or 17) photos
+	urls, instaDesc, hashtags, fullname, username = instaApiCall()
+	results = googleApiCall(urls)
+
+	bio = 'this is my bio'
+	totalfollowers = 50
+	maxlikes = 45
+
+
+	"""
+	print('\n')
+	print('user: ' , username)
+	print('full: ' , fullname)
+	print('bio: ' , bio)
+	print('totalfollowers: ' , totalfollowers)
+	print('maxlikes: ' , maxlikes)
+	print('\n')
+	"""
 
 	########################################################
 	#
@@ -37,7 +56,7 @@ def home(request):
 	for all_labels in results[0] :
 		for eachPic in all_labels :
 			tag.append(eachPic.description)
-		tags.append(tag)
+		logos.append(tag)
 		tag = []
 
 	# saves descriptions of logos from allTags
@@ -45,7 +64,7 @@ def home(request):
 	for all_logos in results[1] :
 		for eachPic in all_logos :
 			tag.append(eachPic.description)
-		logos.append(tag)
+		tags.append(tag)
 		tag = []
 
 	# saves descriptions of text from allTags
@@ -56,14 +75,53 @@ def home(request):
 		text.append(tag)
 		tag = []
 
+
+	# Post
+	#
+	# url list
+	# google logos list
+	# google tags
+	# google text
+	# instagram caption 
+
+	# Influencer
+	# 
+	# username
+	# fullname
+	# bio
+	# posts - one post object
+	# total followers
+	# max likes from entire page 
+
+
+
+
+
+	# Makes Post and Influencer objects
+	postsList= []
+
+	print('POST & INFLUENCER OBJECTS')
+
+	for i in range(0,len(urls)):
+		postsList.append(Post(urls[i], logos[i], tags[i], text[i], instaDesc[i]))
+
+
+	for post in postsList : 
+		print(post)
 	
+	influencerObject = Influencer(username,fullname,bio,postsList,totalfollowers,maxlikes)
+
+	
+
+
 
 	context = {
 		'data': zip(urls, tags, logos, text, instaDesc, hashtags),
 		'something': 'hey guys'
 		
 	}
-	
+
+
 	return render(request, 'bass/home.html', context ) 
 
 #---------#---------#---------#---------#---------#--------#
@@ -80,27 +138,22 @@ def instaApiCall():
 
 	fullname = instaData['data'][0]['user']['full_name']
 	username = instaData['data'][0]['user']['username']
-	
-	print('\n')
-	print('FULL NAME:', fullname)
-	print('USER NAME:', username)
-	print('\n')
 
 	
-	# gets 5 most recent pics 
-	for x in range(5) :
+	# gets 3 most recent pics 
+	for x in range(3) :
 		urls.append(instaData['data'][x]['images']['low_resolution']['url'])
 	
-		print('url:' , instaData['data'][x]['images']['low_resolution']['url'])
-		print('like count:', instaData['data'][x]['likes']['count'] )
-		print('comment count:', instaData['data'][x]['comments']['count'] )
+		#print('url:' , instaData['data'][x]['images']['low_resolution']['url'])
+		#print('like count:', instaData['data'][x]['likes']['count'] )
+		#print('comment count:', instaData['data'][x]['comments']['count'] )
 	
 		if ((instaData['data'][x]['caption']) is not None) :
-			print('caption:' , instaData['data'][x]['caption']['text'])
+			#print('caption:' , instaData['data'][x]['caption']['text'])
 			print('\n')
 		else :
-			print('caption: none')
-			print('tags', instaData['data'][x]['tags'] )
+			#print('caption: none')
+			#print('tags', instaData['data'][x]['tags'] )
 			print('\n')
 	
 	
@@ -115,7 +168,7 @@ def instaApiCall():
 			hashtags.append([])
 
 
-	return urls, instaDesc, hashtags
+	return urls, instaDesc, hashtags, fullname, username
 
 #---------#---------#---------#---------#---------#--------
 def googleApiCall(urls) :
@@ -126,6 +179,7 @@ def googleApiCall(urls) :
 	logos_list = []
 	labels_list = []
 	text_list = []
+
 
 	#gets tags for the urls
 	for x in range(len(urls)) : 
