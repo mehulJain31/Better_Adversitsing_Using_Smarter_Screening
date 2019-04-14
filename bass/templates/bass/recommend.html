@@ -4,14 +4,12 @@
     <br>
     <h1 style="font-size:100%;">Recommend</h1>
     <body>
-    <form name="advertiserForm" method="get" id="advertiserForm">
-        <label>Company Name:</label>
+    <form method="GET" action="/bass/showResults">
         <input type="text" name="companyName" placeholder="Enter Company Name"><br>
         <br>
-
         <br>
-        <label>Select the Category</label>
-        <select>
+        <label>Select the Category:</label>
+        <select name="category">
             <option value="clothes">Clothes</option>
             <option value="cars">Cars</option>
             <option value="technology">Technology</option>
@@ -23,15 +21,18 @@
         <br>
         <label>Tags:</label>
         <br>
-        <textarea id="hashTags" rows="4" cols="50" type="text" name="hashTags"  ></textarea>
+        <textarea id="hashtags" name='hashTags'rows="4" cols="50" placeholder="Enter the relevant hashtags"></textarea>
+        <br>
         <br>
         <br>
         <label>Minimum Followers</label>
         <input type="text" name="minFollowers"><br>
         <br>
         <br>
-        <input type="submit" name='submitButton' id='submitButton'value="Results">
-    </form>
+        <button type="submit" >Get Results</button>
+        </form>
     </body>
+
+
 
 {% endblock content %}
