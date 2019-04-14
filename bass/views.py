@@ -167,15 +167,50 @@ def about(request):
 	return render(request, 'bass/about.html', {'title': 'About'})
 
 def recommend(request):
+
+	return render(request, 'bass/recommend.html',{'title':'Recommend'})
+
+def showResults(request):
 	companyName = request.GET.get('companyName')
 	hashTags = request.GET.get('hashTags')
 	category = request.GET.get('category')
 	minimumFollowers = request.GET.get('minFollowers')
+
 	print(companyName)
 	print(hashTags)
 	print(category)
 	print(minimumFollowers)
-	return render(request, 'bass/recommend.html', {'title': 'Recommend'})
+
+	topList = [{'_id': '5cb2e87aedd8073ff06db745', 'username': 'Divyanshu', 'name': 'Neil Kumar',
+				'bio': "here's my bio Divyanshu", 'total_followers': 10, 'paragraph': 'there once was a boy named harry.', 'engagement_index': 2.0},
+			   {'_id': '5cb2ebb5edd80743f8a8dc5a', 'username': 'Mehul', 'name': 'Mehul Kumar', 'bio': "here's my bio Divyanshu",
+				'total_followers': 10, 'paragraph': 'but the fox is one vicious beast.', 'engagement_index': 2.0},
+			   {'_id': '5cb2ebb5edd80743f8a8dc59', 'username': 'Sakshi', 'name': 'Sakshi Kumar', 'bio': "here's my bio Divyanshu",
+				'total_followers': 10, 'paragraph': 'the big brown fox ran over the boy.', 'engagement_index': 2.0}]
+	userName=[]
+	name=[]
+	bio=[]
+	followers=[]
+	userURL=[]
+
+
+	for i in topList:
+		userName.append(i['username'])
+		name.append(i['name'])
+		bio.append(i['bio'])
+		followers.append(i['total_followers'])
+
+	for i in userName:
+		urlLink='https://www.instagram.com/'+i+'/'
+		userURL.append(urlLink)
+
+	context = {
+		'data': zip(userName,name,bio,followers,userURL),
+		'something': 'hey guys'
+	}
+	return render(request, 'bass/showResults.html', context)
+
+
 
 
 
