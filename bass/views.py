@@ -6,13 +6,11 @@ import re
 
 from .Post import Post
 from .Influencer import Influencer
+from .getInstaFollowers import Insta_Info_Scraper
+from .getInstaFollowers import getMaxLikes
 
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'client_secrets.json'
-
-
-
-
 
 
 #---------#---------#---------#---------#---------#--------#
@@ -25,32 +23,25 @@ def home(request):
 	instaDesc = []
 	hashtags = []
 
-
-	# returns URL's of most recent 20 (or 17) photos
+	# Instagram API call
 	urls, instaDesc, hashtags, fullname, username = instaApiCall()
 	results = googleApiCall(urls)
+	instaUrl = 'https://www.instagram.com/' + username
 
-	bio = 'this is my bio'
-	totalfollowers = 50
-	maxlikes = 45
+	# InstaScrape
+	instaData = {}
+	engagementRatioDict = {}
+
+	obj = Insta_Info_Scraper()
+	obj.main(instaData, instaUrl)
+	maxLikesDict,instaBioDict = getMaxLikes(instaData)
+
+	maxlikes = int(maxLikesDict[username])
+	totalfollowers = int(instaData[username])
+	bio = instaBioDict[username]
 
 
-	"""
-	print('\n')
-	print('user: ' , username)
-	print('full: ' , fullname)
-	print('bio: ' , bio)
-	print('totalfollowers: ' , totalfollowers)
-	print('maxlikes: ' , maxlikes)
-	print('\n')
-	"""
-
-	########################################################
-	#
-	# TO DO : Make this loop section better / more efficient
-	#
-	########################################################
-
+	#---------#---------#---------#---------#---------#---------#
 	# saves descriptions of labels from allTags
 	# this is a list of lists
 	for all_labels in results[0] :
@@ -75,59 +66,49 @@ def home(request):
 		text.append(tag)
 		tag = []
 
-
-	# Post
-	#
-	# url list
-	# google logos list
-	# google tags
-	# google text
-	# instagram caption 
-
-	# Influencer
-	# 
-	# username
-	# fullname
-	# bio
-	# posts - one post object
-	# total followers
-	# max likes from entire page 
-
-
-
-
+	#---------#---------#---------#---------#---------#---------#
+	
+	# Print post & influencer attributes
+	print('\nPOST')
+	print('url:' , urls)
+	print('logos:' , logos)
+	print('tags:' , tags)
+	print('text:' , text)
+	print('caption:' , instaDesc)
+	
+	print('\nINFLUENCER')
+	print('username:' , username)
+	print('fullname:' , fullname)
+	print('bio:', bio)
+	print('followers:' , instaData[username])
+	print('maxlikes:', maxlikes)
 
 	# Makes Post and Influencer objects
 	postsList= []
 
-	print('POST & INFLUENCER OBJECTS')
+	print('\nPOST & INFLUENCER OBJECTS')
 
 	for i in range(0,len(urls)):
-		postsList.append(Post(urls[i], logos[i], tags[i], text[i], instaDesc[i]))
-
+		postsList.append( Post( urls[i] , logos[i] , tags[i] , text[i] , instaDesc[i] ) )
 
 	for post in postsList : 
 		print(post)
-	
-	influencerObject = Influencer(username,fullname,bio,postsList,totalfollowers,maxlikes)
+		print('\n')
 
-	
+	influencerObject = Influencer( username , fullname , bio , postsList , totalfollowers , maxlikes )
 
-
+	#---------#---------#---------#---------#---------#---------#
 
 	context = {
 		'data': zip(urls, tags, logos, text, instaDesc, hashtags),
 		'something': 'hey guys'
-		
 	}
-
 
 	return render(request, 'bass/home.html', context ) 
 
 #---------#---------#---------#---------#---------#--------#
 def instaApiCall():
 	
-
 	r = requests.get("https://api.instagram.com/v1/users/self/media/recent/?access_token=12497873753.91017a2.fae49190455746d3b40c891a154d316d")
 	instaData = r.json()
 	
@@ -135,38 +116,21 @@ def instaApiCall():
 	instaDesc = []
 	hashtags = []
 
-
 	fullname = instaData['data'][0]['user']['full_name']
 	username = instaData['data'][0]['user']['username']
-
 	
-	# gets 3 most recent pics 
-	for x in range(3) :
+	# gets 5 most recent pics 
+	for x in range(5) :
 		urls.append(instaData['data'][x]['images']['low_resolution']['url'])
-	
-		#print('url:' , instaData['data'][x]['images']['low_resolution']['url'])
-		#print('like count:', instaData['data'][x]['likes']['count'] )
-		#print('comment count:', instaData['data'][x]['comments']['count'] )
-	
-		if ((instaData['data'][x]['caption']) is not None) :
-			#print('caption:' , instaData['data'][x]['caption']['text'])
-			print('\n')
-		else :
-			#print('caption: none')
-			#print('tags', instaData['data'][x]['tags'] )
-			print('\n')
-	
 	
 		if ((instaData['data'][x]['caption']) is not None) :
 			instaDesc.append(instaData['data'][x]['caption']['text'])
-			
 			tempString=''.join(instaDesc[x])
 			tags=re.findall(r"#(\w+)",tempString)
 			hashtags.append(tags)
 		else :
 			instaDesc.append([])
 			hashtags.append([])
-
 
 	return urls, instaDesc, hashtags, fullname, username
 
@@ -179,7 +143,6 @@ def googleApiCall(urls) :
 	logos_list = []
 	labels_list = []
 	text_list = []
-
 
 	#gets tags for the urls
 	for x in range(len(urls)) : 
@@ -197,7 +160,6 @@ def googleApiCall(urls) :
 		logos = response.logo_annotations
 		logos_list.append(logos)
 
-		
 	return logos_list, labels_list, text_list
 	
 #---------#---------#---------#---------#---------#--------#
