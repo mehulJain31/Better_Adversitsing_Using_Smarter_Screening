@@ -1,0 +1,16 @@
+{% extends "bass/base.html" %}
+
+{% block content %}
+<h2>Results</h2>
+
+{% for userName,name,bio,followers,userURL in data %}
+<h7><img src="http://bit.ly/2Dbuyte" alt="logo" style="width:25px;height:25px;"/> Username: {{ userName }}</h7><br>
+<h7><img src="http://bit.ly/2Uz6smE" alt="logo" style="width:22px;height:22px;" /> Name: {{ name }}</h7><br>
+<h7><img src="http://bit.ly/2KA0VYw" alt="logo" style="width:25px;height:25px;" /> Bio: {{ bio }}</h7><br>
+<h7><img src="http://bit.ly/2GndMcz" alt="logo" style="width:26px;height:26px;"/>Followers: {{ followers }}</h7><br>
+<h7><img src="http://bit.ly/2Iz56Bs" alt="logo" style="width:26px;height:26px;" /> <a href={{userURL}}>Instagram Link </a></h7>
+<br>
+<br>
+
+{% endfor %}
+{% endblock content %}
