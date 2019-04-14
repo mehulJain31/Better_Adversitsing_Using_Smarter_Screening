@@ -167,6 +167,14 @@ def about(request):
 	return render(request, 'bass/about.html', {'title': 'About'})
 
 def recommend(request):
+	companyName = request.GET.get('companyName')
+	hashTags = request.GET.get('hashTags')
+	category = request.GET.get('category')
+	minimumFollowers = request.GET.get('minFollowers')
+	print(companyName)
+	print(hashTags)
+	print(category)
+	print(minimumFollowers)
 	return render(request, 'bass/recommend.html', {'title': 'Recommend'})
 
 
