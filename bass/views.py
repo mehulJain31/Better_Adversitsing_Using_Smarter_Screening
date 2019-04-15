@@ -97,8 +97,8 @@ def home(request):
 		print('\n')
 
 	influencerObject = Influencer( username , fullname , bio , postsList , totalfollowers , maxlikes )
-	inf_db= InfluencerDB()
-	inf_db.addInfluencerToDB(influencerObject)
+	#inf_db= InfluencerDB()
+	#inf_db.addInfluencerToDB(influencerObject)
 
 	#---------#---------#---------#---------#---------#---------#
 
@@ -112,7 +112,7 @@ def home(request):
 #---------#---------#---------#---------#---------#--------#
 def instaApiCall():
 	
-	r = requests.get("https://api.instagram.com/v1/users/self/media/recent/?access_token=12392576056.84a1b76.4b45944e65a645a6a26ad120e4f84f9f")
+	r = requests.get("https://api.instagram.com/v1/users/self/media/recent/?access_token=12497873753.91017a2.fae49190455746d3b40c891a154d316d")
 	instaData = r.json()
 	
 	urls = []
