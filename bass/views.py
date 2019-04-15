@@ -9,9 +9,10 @@ from .Influencer import Influencer
 from .getInstaFollowers import Insta_Info_Scraper
 from .getInstaFollowers import getMaxLikes
 
+from .tf_idf_matching import Matching
+from .Influencer_MongoDB import InfluencerDB
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'client_secrets.json'
-
 
 #---------#---------#---------#---------#---------#--------#
 def home(request):
@@ -96,6 +97,8 @@ def home(request):
 		print('\n')
 
 	influencerObject = Influencer( username , fullname , bio , postsList , totalfollowers , maxlikes )
+	inf_db= InfluencerDB()
+	inf_db.addInfluencerToDB(influencerObject)
 
 	#---------#---------#---------#---------#---------#---------#
 
@@ -109,7 +112,7 @@ def home(request):
 #---------#---------#---------#---------#---------#--------#
 def instaApiCall():
 	
-	r = requests.get("https://api.instagram.com/v1/users/self/media/recent/?access_token=12497873753.91017a2.fae49190455746d3b40c891a154d316d")
+	r = requests.get("https://api.instagram.com/v1/users/self/media/recent/?access_token=12392576056.84a1b76.4b45944e65a645a6a26ad120e4f84f9f")
 	instaData = r.json()
 	
 	urls = []
@@ -181,18 +184,17 @@ def showResults(request):
 	print(category)
 	print(minimumFollowers)
 
-	topList = [{'_id': '5cb2e87aedd8073ff06db745', 'username': 'Divyanshu', 'name': 'Neil Kumar',
-				'bio': "here's my bio Divyanshu", 'total_followers': 10, 'paragraph': 'there once was a boy named harry.', 'engagement_index': 2.0},
-			   {'_id': '5cb2ebb5edd80743f8a8dc5a', 'username': 'Mehul', 'name': 'Mehul Kumar', 'bio': "here's my bio Divyanshu",
-				'total_followers': 10, 'paragraph': 'but the fox is one vicious beast.', 'engagement_index': 2.0},
-			   {'_id': '5cb2ebb5edd80743f8a8dc59', 'username': 'Sakshi', 'name': 'Sakshi Kumar', 'bio': "here's my bio Divyanshu",
-				'total_followers': 10, 'paragraph': 'the big brown fox ran over the boy.', 'engagement_index': 2.0}]
+	match = Matching()
+	match.parseCorpus_db()
+	#print(match.query("fox harry trusted"))
+
+	topList = match.query(hashTags+" "+companyName+" "+category)
+
 	userName=[]
 	name=[]
 	bio=[]
 	followers=[]
 	userURL=[]
-
 
 	for i in topList:
 		userName.append(i['username'])
@@ -209,8 +211,3 @@ def showResults(request):
 		'something': 'hey guys'
 	}
 	return render(request, 'bass/showResults.html', context)
-
-
-
-
-
