@@ -165,7 +165,6 @@ class Matching:
 
         #value corresponding to each token = idf(token) * summation of tf values for each doc
 
-
     def query(self, qstring):
 
         string_vector_list = self.Tokenize(qstring)
@@ -187,19 +186,27 @@ class Matching:
         
         topCandidates= self.findMaxCosine(tf_idf_values_dict, qstring) #list of maxVal, documentNumber
 
-        result=[]
+
 
         influencer_result=[]
         
         for maxVal, docNumber in topCandidates:
-            result.append((self.allParagraphs[docNumber], maxVal))
+            #result.append((self.allParagraphs[docNumber], maxVal))
             influencer_result.append(self.allInfluencer[docNumber])
         
         #return (influencer_result,result) #allParagraphs[documentNo], maxVal
         #print(result,"\n\n\n")
-        return influencer_result
-        
 
+        encountered_usernames=set([])
+        result = []
+        for influ in influencer_result:
+
+            if influ["username"] not in encountered_usernames:
+                encountered_usernames.add(influ["username"])
+                result.append(influ)
+
+        return result
+        
     def asimilarity(self, a,b): #NOT USED               #finds the common set of keys in both dicts a, b and retuns the dot product
         commonKeys= set.intersection(set(a.keys()), set(b.keys()))  #finding set intersection of sets of keys
 
