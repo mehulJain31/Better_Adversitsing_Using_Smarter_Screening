@@ -1,8 +1,10 @@
 {% extends "bass/base.html" %}
 
 {% block content %}
-<h2>Results</h2>
 
+
+
+{% comment %}
 {% for userName,name,bio,followers,userURL in data %}
 <h7><img src="http://bit.ly/2Dbuyte" alt="logo" style="width:25px;height:25px;"/> Username: {{ userName }}</h7><br>
 <h7><img src="http://bit.ly/2Uz6smE" alt="logo" style="width:22px;height:22px;" /> Name: {{ name }}</h7><br>
@@ -13,4 +15,47 @@
 <br>
 
 {% endfor %}
+{% endcomment %}
+
+
+<article class="media content-section"> <h5> 3 Matches</h5> </article>
+
+{% for userName,name,bio,followers,userURL in data %}
+<article class="media content-section">
+	<div class="media-body">
+		<div class="article-metadata">
+		    <a class="mr-2" href="#">{{ userName }} - {{ name }} </a>
+
+		    <small class="text-muted">| Followers : {{ followers }} </small>
+		</div>
+		    
+		
+		<img src="https://scontent.cdninstagram.com/vp/9ee0a457396f08f8030cdbe4660e585f/5D77C791/t51.2885-19/s150x150/57899672_403708487027328_7030130730701160448_n.jpg?_nc_ht=scontent.cdninstagram.com" style="height:60px" />
+
+		<br>
+		
+		<small class="text-muted">Bio: {{ bio }}</small><br>
+		<small class="text-muted" >Engagement ratio: 4</small><br>	
+		<small class="text-muted">Match rating: 78%</small><br>
+		
+		<div class="progress">
+    		<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" width="50%" color="black" style="width:70%">
+      			<span class="sr-only">70% Complete</span>
+    		</div>
+  		</div>
+
+		
+		
+					
+	</div>
+</article>
+
+{% endfor %}
+
+
+
+
+
+
+
 {% endblock content %}
