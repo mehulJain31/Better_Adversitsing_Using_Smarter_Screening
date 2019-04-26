@@ -5,7 +5,7 @@ from nltk. stem. porter import PorterStemmer
 import math
 import heapq
 
-from .Influencer_MongoDB import InfluencerDB
+from .Influencer_MongoDB import InfluencerDB 
 
 DESIRED_NO_OF_RESULTS=3     #this determines how many search results you will get
 tokenizer= RegexpTokenizer(r'[a-zA-Z]+')            #creating tokenizer useing provided code
@@ -165,48 +165,33 @@ class Matching:
 
         #value corresponding to each token = idf(token) * summation of tf values for each doc
 
+
     def query(self, qstring):
 
         string_vector_list = self.Tokenize(qstring)
         qstring = self.getqvec(qstring)  #obtaining tf-idf values of each stemmed token in qstring
-        #print(qstring)
-
-        #now we need to find tf-idf values of stemmed tokens in qstring for each document(paragraph)
         
         tf_idf_values_dict = {}
         for document in self.paragraphs_and_tokens:  #for each paragraph
 
-            #print("For document: ", document,": ", allParagraphs[document][0:100]) 
             tf_idf_values_dict[document]= self.modified_getqvec(self.paragraphs_and_tokens[document])
-            #print(tf_idf_values_dict[document])
        
         #documentNo, maxVal= findMaxCosine(tf_idf_values_dict, qstring)
         #if maxVal==0.0:
             #return "No Match\n",maxVal
         
         topCandidates= self.findMaxCosine(tf_idf_values_dict, qstring) #list of maxVal, documentNumber
-
-
+        result=[]
 
         influencer_result=[]
         
         for maxVal, docNumber in topCandidates:
-            #result.append((self.allParagraphs[docNumber], maxVal))
+            result.append((self.allParagraphs[docNumber], maxVal))
             influencer_result.append(self.allInfluencer[docNumber])
         
-        #return (influencer_result,result) #allParagraphs[documentNo], maxVal
-        #print(result,"\n\n\n")
-
-        encountered_usernames=set([])
-        result = []
-        for influ in influencer_result:
-
-            if influ["username"] not in encountered_usernames:
-                encountered_usernames.add(influ["username"])
-                result.append(influ)
-
-        return result
+        return influencer_result
         
+
     def asimilarity(self, a,b): #NOT USED               #finds the common set of keys in both dicts a, b and retuns the dot product
         commonKeys= set.intersection(set(a.keys()), set(b.keys()))  #finding set intersection of sets of keys
 
@@ -236,6 +221,20 @@ class Matching:
                     similarity= similarity+ qstring[val]*tf_idf_values_dict[document][val]
             allCosineSimilarities.append(similarity) 
 
+        #----------------------------------------------------
+
+        scoresWithIndex= [(allCosineSimilarities[i],i) for i in range(len(allCosineSimilarities))] # x in allCosineSimilarities]
+
+        if len(allCosineSimilarities)>DESIRED_NO_OF_RESULTS:
+            result= heapq.nlargest(DESIRED_NO_OF_RESULTS, scoresWithIndex)
+
+        else:
+            result= scoresWithIndex
+            
+        return result
+        
+        
+        """
         scoresWithIndex= [(x,allCosineSimilarities.index(x)) for x in allCosineSimilarities]
      
         #maxVal= max(allCosineSimilarities)     #finding max cosine value
@@ -247,7 +246,7 @@ class Matching:
             result= scoresWithIndex
             
         return result   #(allCosineSimilarities.index(maxVal),maxVal) #returning max cosine val and its index
-
+        """
 
     def parseCorpus_file(self):  #first method that parses the debate.txt to create documents
 
@@ -275,8 +274,7 @@ class Matching:
         print("Parsing Corpus from db...")
 
         inf_db= InfluencerDB()
-        allInfluencers = inf_db.allInfluencer_name_username_paragraph_engagement_index_bio_followers()
-
+        allInfluencers = inf_db.allInfluencer_name_username_paragraph_engagement_index_bio_followers_profile_pic_url()
         i=0
 
         #print(allInfluencers)
@@ -298,4 +296,4 @@ class Matching:
         
 match= Matching()
 match.parseCorpus_db()
-print(match.query("harry fox"))
+print(match.query("big brown trusted"))

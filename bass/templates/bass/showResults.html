@@ -20,7 +20,7 @@
 
 <article class="media content-section"> <h5>Matches</h5> </article>
 
-{% for userName,name,bio,followers,userURL,proilepic in data %}
+{% for userName,name,bio,followers,userURL in data %}
 <article class="media content-section">
 	<div class="media-body">
 		<div class="article-metadata">
@@ -35,7 +35,6 @@
 		<br>
 		
 		<small class="text-muted">Bio: {{ bio }}</small><br>
-		<small class="text-muted" >Engagement ratio: 4</small><br>	
 		<small class="text-muted">Match rating: 78%</small><br>
 		
 		<div class="progress">

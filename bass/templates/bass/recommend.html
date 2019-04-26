@@ -1,40 +1,60 @@
 {% extends "bass/base.html" %}
 {% block content %}
-    <br>
-    <br>
-    <h1 style="font-size:100%;">Recommend</h1>
-    <body>
-    <form action="/bass/showResults" autocomplete="off" name="advertiserForm" method="GET" id="advertiserForm">
-        <input type="text" name="companyName" placeholder="Enter Company Name"><br>
-        <br>
-        <br>
-        <label>Select the Category</label>
-        <select name="category">
-            <option value="clothes">Clothes</option>
-            <option value="cars">Cars</option>
-            <option value="technology">Technology</option>
-            <option value="fitness">Fitness</option>i
-            <option value="perfumes">Perfumes</option>
-            <option value="gaming">Gaming</option>
-        </select>
-        <br>
-        <br>
-        <label>Tags:</label>
-        <br>
-        <div class="autocomplete" style="width:302px;">
-            <input id="myInput" type="text" name="myCountry" placeholder="Country">
+
+    <article class="media content-section">
+    <div class="media-body">
+        <h4>Find Matches</h4><br>
+
+
+
+   
+    <form action="/bass/showResults"autocomplete="off" name="advertiserForm" method="GET" id="advertiserForm">
+        <div class="form-group">
+        
+
+        
+        
+
+
+        
+
+        
+        
+        
+        
+
+
+
+
+        <script>
+            $(document).on('click', '.dropdown-menu li a', function() {
+                $(this).parent().parent().parent().find('.datebox').val($(this).html());
+            }); 
+        </script>
+
+
+
+     
+ 
+        <div class="autocomplete" >
+            <input id="myInput" class="form-control" type="text" name="myCountry" placeholder="Tags">
         </div>
-        <input type="button" value="Add new Tag" onClick="addText();">
+
         <br>
+
+        <input type="button" class="btn btn-secondary" value="Add new Tag" onClick="addText();">
+        <br>
+       
+   
         <script language="javascript" type="text/javascript">
              function addText() {
                 var newtext = document.advertiserForm.myCountry.value + " ";
                 document.advertiserForm.hashTags.value += newtext
              }
         </script>
-        <br>
-        <textarea id="hashTags" rows="4" cols="50" type="text" name="hashTags"  ></textarea>
-        <br>
+      <br>
+        <textarea class="form-control" id="hashTags" rows="4" cols="50" type="text" name="hashTags"  ></textarea>
+
          <script>
 
 
@@ -143,14 +163,23 @@
             /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
             autocomplete(document.getElementById("myInput"), countries);
         </script>
+
+
+
+
         <br>
-        <label>Minimum Followers</label>
-        <input type="text" name="minFollowers"><br>
+        
+        <input class="form-control" type="text" placeholder="Minimum Followers" name="minFollowers">
         <br>
-        <br>
-    <button type="submit" >Get Results</button>
+        
+      
+    
+
+    <button class="btn btn-primary" type="submit" >Get Results</button>
+    
+    </div>
     </form>
-    </body>
-    </html>
+    
+    </article>
 
 {% endblock content %}

@@ -182,21 +182,21 @@ def recommend(request):
 	return render(request, 'bass/recommend.html',{'title':'Recommend'})
 
 def showResults(request):
-	companyName = request.GET.get('companyName')
+	#companyName = request.GET.get('companyName')
 	hashTags = request.GET.get('hashTags')
-	category = request.GET.get('category')
+	#category = request.GET.get('category')
 	minimumFollowers = request.GET.get('minFollowers')
 
-	print(companyName)
+	
 	print(hashTags)
-	print(category)
+	
 	print(minimumFollowers)
 
 	match = Matching()
 	match.parseCorpus_db()
 	#print(match.query("fox harry trusted"))
 
-	topList = match.query(hashTags+" "+companyName+" "+category)
+	topList = match.query(hashTags)
 
 	userName=[]
 	name=[]
