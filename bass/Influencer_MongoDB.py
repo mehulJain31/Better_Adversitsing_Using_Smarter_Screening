@@ -21,7 +21,6 @@ class InfluencerDB:
             self.client = MongoClient(Client_Link)
             self.db = self.client[InfluencerDB_DataBase_Name]
             self.InfluencerTable = self.db[InfluencerTable_Name]                
-            #self.InfluencerTable.create_index([("username", pymongo.TEXT)],name= 'search_index', default_language='english')
             self.InfluencerTable.create_index("username", unique= True)
             
             dbconnStatusJsonString = 'Connection Successful!'
@@ -51,7 +50,6 @@ class InfluencerDB:
             print("Duplicate key error, this influencer already exists")
             print("\n\n\n",e)
 
-        
     
     def printAllInfluencers_extended(self):  #print all data about each influencer
 
@@ -87,6 +85,12 @@ class InfluencerDB:
         result= self.InfluencerTable.find({}, query)
         return result
 
+    def allInfluencer_name_username_paragraph_engagement_index_bio_followers_profile_pic_url(self):
+
+        query= {"name":1,"username":1,"paragraph":1,"engagement_index":1, "bio":1, "total_followers":1, "profile_pic_url":1 }
+        result= self.InfluencerTable.find({}, query)
+        return result
+
     def findInfluencerByUsername(self, username):
 
         query= {"username":username}
@@ -101,7 +105,6 @@ class InfluencerDB:
 
 
     def findInfluencerByTotal_followers_sorted(self, minFollowers):
-
         #sorted in descending order of total_followers
 
         query= {"total_followers": {"$gt":minFollowers}}

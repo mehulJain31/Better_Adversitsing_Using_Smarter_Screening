@@ -25,7 +25,7 @@ def home(request):
 	hashtags = []
 
 	# Instagram API call
-	urls, instaDesc, hashtags, fullname, username = instaApiCall()
+	urls, instaDesc, hashtags, fullname, username, profilepic = instaApiCall()
 	results = googleApiCall(urls)
 	instaUrl = 'https://www.instagram.com/' + username
 
@@ -83,6 +83,7 @@ def home(request):
 	print('bio:', bio)
 	print('followers:' , instaData[username])
 	print('maxlikes:', maxlikes)
+	print('profile pic:' , profilepic)
 
 	# Makes Post and Influencer objects
 	postsList= []
@@ -96,7 +97,7 @@ def home(request):
 		print(post)
 		print('\n')
 
-	influencerObject = Influencer( username , fullname , bio , postsList , totalfollowers , maxlikes )
+	influencerObject = Influencer( username , fullname , bio , postsList , totalfollowers , maxlikes , profilepic )
 	#inf_db= InfluencerDB()
 	#inf_db.addInfluencerToDB(influencerObject)
 
@@ -115,16 +116,19 @@ def instaApiCall():
 	r = requests.get("https://api.instagram.com/v1/users/self/media/recent/?access_token=12497873753.91017a2.fae49190455746d3b40c891a154d316d")
 	instaData = r.json()
 	
-
-	print(instaData)
+	
 
 
 	urls = []
 	instaDesc = []
 	hashtags = []
 
+	profilepic = instaData['data'][0]['user']['profile_picture']
 	fullname = instaData['data'][0]['user']['full_name']
 	username = instaData['data'][0]['user']['username']
+
+
+
 	
 	# gets 5 most recent pics 
 	for x in range(5) :
@@ -139,7 +143,7 @@ def instaApiCall():
 			instaDesc.append([])
 			hashtags.append([])
 
-	return urls, instaDesc, hashtags, fullname, username
+	return urls, instaDesc, hashtags, fullname, username, profilepic
 
 #---------#---------#---------#---------#---------#--------
 def googleApiCall(urls) :
@@ -199,6 +203,7 @@ def showResults(request):
 	bio=[]
 	followers=[]
 	userURL=[]
+	profilePicList = []
 
 	for i in topList:
 		userName.append(i['username'])
@@ -209,6 +214,7 @@ def showResults(request):
 	for i in userName:
 		urlLink='https://www.instagram.com/'+i+'/'
 		userURL.append(urlLink)
+
 
 	context = {
 		'data': zip(userName,name,bio,followers,userURL),
