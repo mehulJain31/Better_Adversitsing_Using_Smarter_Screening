@@ -191,9 +191,14 @@ def showResults(request):
 	print(hashTags)
 	
 	print(minimumFollowers)
+	x=0
+	try:
+		x= int(minFollowers)
+	except:
+		x=0
 
 	match = Matching()
-	match.parseCorpus_db()
+	match.parseCorpus_db(x)
 	#print(match.query("fox harry trusted"))
 
 	topList = match.query(hashTags)
@@ -205,19 +210,23 @@ def showResults(request):
 	userURL=[]
 	profilePicList = []
 
-	for i in topList:
-		userName.append(i['username'])
-		name.append(i['name'])
-		bio.append(i['bio'])
-		followers.append(i['total_followers'])
+	#---------Divyanshu: added data into matchScores, userURL, profilePicList ------------
+	matchScores = []
 
-	for i in userName:
-		urlLink='https://www.instagram.com/'+i+'/'
-		userURL.append(urlLink)
-
-
+	for influencer, matchScore in topList:
+		userName.append(influencer['username'])
+		name.append(influencer['name'])
+		bio.append(influencer['bio'])
+		followers.append(influencer['total_followers'])
+       
+		#-----------Divyanshu: changes below this line---------
+		userURL.append("https://www.instagram.com/"+influencer['username']+"/")
+		matchScores.append(matchScore*100)
+		if "profile_pic_url" in influencer:
+			profilePicList.append(influencer["profile_pic_url"])
+                
 	context = {
-		'data': zip(userName,name,bio,followers,userURL),
+		'data': zip(userName,name,bio,followers,userURL), # eric, add , matchScores, profilePicList here and take that to show results
 		'something': 'hey guys'
 	}
 	return render(request, 'bass/showResults.html', context)
