@@ -34,7 +34,6 @@ class InfluencerDB:
         #self.client = client
         #self.db= db
         
-        
         #return client,db
 
     def addInfluencerToDB(self, influencer):
@@ -85,18 +84,18 @@ class InfluencerDB:
         result= self.InfluencerTable.find({}, query)
         return result
 
-    def allInfluencer_name_username_paragraph_engagement_index_bio_followers_profile_pic_url(self):
+    def allInfluencer_name_username_paragraph_engagement_index_bio_followers_profile_pic_url_minFollowers(self,minFollowers):
 
-        query= {"name":1,"username":1,"paragraph":1,"engagement_index":1, "bio":1, "total_followers":1, "profile_pic_url":1 }
-        result= self.InfluencerTable.find({}, query)
+        query= {"name":1,"username":1,"paragraph":1,"engagement_index":1, "bio":1, "total_followers":1, "profile_pic_url":1, "total_followers": 1}
+        result= self.InfluencerTable.find({"total_followers": {"$gt":minFollowers}}, query)
         return result
 
     def findInfluencerByUsername(self, username):
 
         query= {"username":username}
         return self.findInfluencerByQuery(query)
-    
 
+    
     def findInfluencerByTotal_followers(self, minFollowers): #unsorted
         #returns influencers that have greater than minFollowers
         
