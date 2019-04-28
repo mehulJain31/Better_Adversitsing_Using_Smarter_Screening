@@ -182,14 +182,29 @@ class Matching:
         
         topCandidates= self.findMaxCosine(tf_idf_values_dict, qstring) #list of maxVal, documentNumber
         result=[]
-
         influencer_result=[]
+
+        total_engagement_index=0
+        for maxVal, docNumber in topCandidates:
+            total_engagement_index+= maxVal
+
+        #print(total_engagement_index)
         
         for maxVal, docNumber in topCandidates:
-            result.append((self.allParagraphs[docNumber], maxVal))
-            influencer_result.append(self.allInfluencer[docNumber])
-        
-        return influencer_result
+
+            weighted_engagement_index=0
+            if total_engagement_index>0:
+
+                #print(self.allInfluencer[docNumber]["engagement_index"])
+                weighted_engagement_index = self.allInfluencer[docNumber]["engagement_index"] * maxVal / total_engagement_index
+            
+            #result.append((self.allParagraphs[docNumber], maxVal))
+
+            #print(weighted_engagement_index)
+            if weighted_engagement_index>0:
+                influencer_result.append((self.allInfluencer[docNumber], weighted_engagement_index))
+
+        return influencer_result #returns (Influencer, match score) tuples
         
 
     def asimilarity(self, a,b): #NOT USED               #finds the common set of keys in both dicts a, b and retuns the dot product
@@ -221,9 +236,8 @@ class Matching:
                     similarity= similarity+ qstring[val]*tf_idf_values_dict[document][val]
             allCosineSimilarities.append(similarity) 
 
-        #----------------------------------------------------
-
-        scoresWithIndex= [(allCosineSimilarities[i],i) for i in range(len(allCosineSimilarities))] # x in allCosineSimilarities]
+        scoresWithIndex= [[allCosineSimilarities[i],i] for i in range(len(allCosineSimilarities))] # x in allCosineSimilarities]
+        #print(scoresWithIndex)
 
         if len(allCosineSimilarities)>DESIRED_NO_OF_RESULTS:
             result= heapq.nlargest(DESIRED_NO_OF_RESULTS, scoresWithIndex)
@@ -232,21 +246,6 @@ class Matching:
             result= scoresWithIndex
             
         return result
-        
-        
-        """
-        scoresWithIndex= [(x,allCosineSimilarities.index(x)) for x in allCosineSimilarities]
-     
-        #maxVal= max(allCosineSimilarities)     #finding max cosine value
-
-        if len(allCosineSimilarities)>DESIRED_NO_OF_RESULTS:
-            result= heapq.nlargest(DESIRED_NO_OF_RESULTS, scoresWithIndex)
-
-        else:
-            result= scoresWithIndex
-            
-        return result   #(allCosineSimilarities.index(maxVal),maxVal) #returning max cosine val and its index
-        """
 
     def parseCorpus_file(self):  #first method that parses the debate.txt to create documents
 
@@ -269,12 +268,12 @@ class Matching:
         self.document_parsed= True
         return
 
-    def parseCorpus_db(self):
+    def parseCorpus_db(self, minFollowers):
 
         print("Parsing Corpus from db...")
 
         inf_db= InfluencerDB()
-        allInfluencers = inf_db.allInfluencer_name_username_paragraph_engagement_index_bio_followers_profile_pic_url()
+        allInfluencers = inf_db.allInfluencer_name_username_paragraph_engagement_index_bio_followers_profile_pic_url_minFollowers(minFollowers)
         i=0
 
         #print(allInfluencers)
@@ -294,6 +293,6 @@ class Matching:
         self.document_parsed= True
         #print("self.allParagraphs",self.allParagraphs)
         
-match= Matching()
-match.parseCorpus_db()
-print(match.query("big brown trusted"))
+#match= Matching()
+#match.parseCorpus_db(0)
+#print(match.query("shoes nike sneakers"))
