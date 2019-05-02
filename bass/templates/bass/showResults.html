@@ -1,104 +1,147 @@
-{% extends "bass/base.html" %}
-
-{% block content %}
-{% load static %} 
+{% extends "bass/base.html" %} {% block content %} {% load static %}
 
 
 
 
-<br><br>
+<br><br> 
+
+<div style="padding:15px; text-align:center">
+        <h2>Better Advertising</h2>
+        <p>Based off your search, these profiles best match something</p>
+    </div>
 
 
-{% for userName,name,bio,followers,userURL,matchScores in data %}
-<article class="media content-section">
-	<div class="media-body">
-		<div class="article-metadata">
-		    <a class="mr-2" href="#">{{ userName }} - {{ name }} </a>
 
-		    <small class="text-muted">| Followers : {{ followers }} </small>
+{% for userName,name,bio,followers,userURL,matchScores,profilePicList in data %}
+
+
+
+	
+
+
+	{% if forloop.counter0|divisibleby:2 %}
+		<div class="row">
+  			<div class="col-6 thing">
+  				<div class="round">
+                <img id="outer" src="{% static 'bass/one.png' %}" />
+                <div id="outer2" class="thing2">
+                    <p><strong>@{{userName}}</strong></p>
+                    <p>{{name}} - {{followers}} followers
+                    <br>
+                    <br>
+                        <div class="progress">
+                            <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{matchScores}}" aria-valuemin="0" aria-valuemax="100" width="50%" style="width:{{matchScores}}%">{{matchScores}}
+
+                            </div>
+                        </div>
+                </div>
+            </div>
+  			</div>
+  			
+  			
+		
+	{% else %}
+			<div class="col-6 thing">
+				<div class="round">
+                <img class="image" src="{% static 'bass/three.png' %}" />
+                
+
+                <div class="overlay">
+                    <div class="text"> test </div>
+                </div>
+
+                <div class="thing2">
+                    <p><strong>@{{userName}}</strong></p>
+                    <p>{{name}} - {{followers}} followers
+                    <br>
+                    <br>
+                        <div class="progress">
+                            <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{matchScores}}" aria-valuemin="0" aria-valuemax="100" width="50%" style="width:{{matchScores}}%">{{matchScores}}</div>
+                        </div>
+                </div>
+            </div>
+			</div>
 		</div>
-		    
-		
-		<img src=" {{ profilepic }} " style="height:60px" />
+	{% endif %}
 
-		<br>
-		
-		<small class="text-muted">Bio: {{ bio }}</small><br>
-		<small class="text-muted">Match rating: {{ matchScores }} </small><br>
-		
-		<div class="progress">
-    		<div class="progress-bar" role="progressbar" aria-valuenow="{{matchScores}}" aria-valuemin="0" aria-valuemax="100" width="50%" color="black" style="width:{{matchScores}}%">
-      			<span class="sr-only">50% Complete</span>
-    		</div>
-  		</div>
-
-		
-		
-					
-	</div>
-</article>
 
 {% endfor %}
 
 
-<div>
+<!--
+<div class="row">
 
-	<div style="text-align:center">
-  <h2>Better Advertising</h2>
-  <p>Based off your search, these profiles best match something</p>
-  </div>
-  	
-  	<div class="row">
-    	<div class="col-6 thing">
-    		<div class="round">
-    			<img id="outer" src="{% static 'bass/one.png' %}"/>
-    			<div class="thing2"> hey </div>
-    		</div>
-    	</div>
+        
+        <div class="col-6 thing">
+            <div class="round">
+                <img id="outer" src="{% static 'bass/one.png' %}" />
+                <div id="outer2" class="thing2">
+                    <p><strong>@username</strong></p>
+                    <p>Full name - 11 followers
+                    <br>
+                    <br>
+                        <div class="progress">
+                            <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{matchScores}}" aria-valuemin="0" aria-valuemax="100" width="50%" style="width:90%">
 
-
-  		<div class="col-6 thing">
-  			<div class="round">
-    			<img src="{% static 'bass/three.png' %}"/>
-    			<div class="thing2"> hey </div>
-    		</div>
-  		</div>
- 	</div>
-
-	<div class="row">
-    	<div class="col-6 thing">
-    		<div class="round">
-    			<img src="{% static 'bass/three.png' %}"/>
-    			<div class="thing2"> hey </div>
-    		</div>
-    	</div>
-    	<div class="col-6 thing"></div>
-  	</div>
-</div>
-
-
-
-<script>
-	
-	$( document ).ready(function() {
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
     
 
-		console.log('hey im loaded')
-			
-		$( "#outer" ).mouseenter(function() {
-	  		$( "#outer" ).animate({
-			    opacity: 0.25,
-			    left: "+=50",
-			    height: "toggle"
-			  }, 5000, function() {
-			    console.log('hey2')
-	  		});
-		});
 
-	});
+        
+        <div class="col-6 thing container">
+            <div class="round">
+                <img class="image" src="{% static 'bass/three.png' %}" />
 
-</script>
+                <div class="overlay">
+                    <div class="text"> test </div>
+                </div>
 
+                <div class="thing2">
+                    <p><strong>@username</strong></p>
+                    <p>Full name - 11 followers
+                    <br>
+                    <br>
+                        <div class="progress">
+                            <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{matchScores}}" aria-valuemin="0" aria-valuemax="100" width="50%" style="width:60%"></div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+
+
+<div class="row">
+
+
+    <div class="col-6 thing container">
+        <div class="round">
+            <img class="image" src="{% static 'bass/two.png' %}" />
+
+
+            <div class="thing2">
+                <p><strong>@username</strong></p>
+                <p>Full name - 11 followers
+                <p>
+                <br>
+                    <div class="progress">
+                        <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{matchScores}}" aria-valuemin="0" aria-valuemax="100" width="50%" style="width:30%">
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 thing container"></div>
+</div> 
+
+
+
+-->
 
 
 {% endblock content %}

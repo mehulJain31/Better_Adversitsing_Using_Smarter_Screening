@@ -1,51 +1,109 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand');
 
 body {
-  /* background-image: url("gradient.jpg"); */
   background-color:#f0f0f0;
-}
-
-.smaller {
-
-  width:20px;
-  height:20px;
-}
-
-.thing {
-
+  color:#505050;
   
-  
-  padding:18px;
-
-
 }
 
 .round {
-  
-
   padding:10px;
-  overflow: hidden;
+  overflow:hidden;
   border-radius: 45px;
 }
 
-.thing2 {
+progress,                          /* Firefox  */ 
+progress[role][aria-valuenow] {    /* Polyfill */
+  background: red !important; /* !important is needed by the polyfill */
+}
 
+/* Chrome */
+progress::-webkit-progress-bar {
+  background: red !important;
+}
+
+.thing {
+  padding:18px;
+}
+
+
+.thing2 {
   background-color:white;
   height:150px;
-
+  border-width:10px;
+  border-color: red;
+  padding:25px;
 }
 
+p {
+  margin:0px;
+}
 
 .thing img{
-
   width: 100%;
+}
 
+.round:hover {
+  transform: scale(1.015);
+  transition: transform .3s;
+}
+
+.round:hover img {
+  opacity: 0.7;
+}
+
+
+
+
+
+
+.container {
+  position: relative;
+  width: 50%;
+}
+
+.image {
   
 }
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  
+}
+
+.container:hover .overlay {
+  opacity: 1;
+}
+
+.text {
+  color: green;
+  font-size: 20px;
+  position:relative;
+  top:250px;
+  right:50px;
+  visibility:hidden;
+  text-align: center;
+}
+
+
+
+
+
+
+
 
 
 h1, h2, h3, h4, h5, h6 {
   color: #444444;
+
 }
 
 ul {
@@ -56,21 +114,18 @@ ul {
   background-color: #FFFFFF;
 }
 
-.smalllogo {
-  height:60px;
-  width:60px;
-}
 
 .site-header .navbar-nav .nav-link {
   color: #999999;
   font-weight:bold;
   font-family:Quicksand;
   font-size:20px;
-  padding-right:35px;
+  
+  float:left;
 }
 
 .site-header .navbar-nav .nav-link:hover {
-  color: #f2f2f2;
+  color: #c9c9c9;
 }
 
 .site-header .navbar-nav .nav-link.active {

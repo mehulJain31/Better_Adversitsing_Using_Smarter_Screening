@@ -229,16 +229,12 @@ def showResults(request):
 
 		
 	print('\n\nstuff')
-	print(userName)
-	print(matchScores)
+
 	print(profilePicList)
-	print(name)
-	print(bio)
-	print(followers)
-	print(userURL)
+	print('\n\n')
 
 	context = {
-		'data': zip(userName,name,bio,followers,userURL,matchScores), # eric, add , matchScores, profilePicList here and take that to show results
+		'data': zip(userName,name,bio,followers,userURL,matchScores,profilePicList), # eric, add , matchScores, profilePicList here and take that to show results
 		'something': 'hey guys'
 	}
 

@@ -1,8 +1,7 @@
-{% extends "bass/base.html" %}
-{% block content %}
+{% extends "bass/base.html" %} {% block content %}
 
-  
-    <article class="media content-section">
+
+<article class="media content-section">
     <div class="media-body">
 
         <div style="text-align:center">
@@ -11,166 +10,172 @@
         </div>
 
 
-   
-   <br>
+
+        <br>
 
 
-    <form action="/bass/showResults" autocomplete="off" name="advertiserForm" method="GET" id="advertiserForm">
-        <div class="form-group">
-        
-
-
-        <script>
-            $(document).on('click', '.dropdown-menu li a', function() {
-                $(this).parent().parent().parent().find('.datebox').val($(this).html());
-            }); 
-        </script>
+        <form action="/bass/showResults" autocomplete="off" name="advertiserForm" method="GET" id="advertiserForm">
+            <div class="form-group">
 
 
 
-     
- 
-        <div class="autocomplete" >
-            <input id="myInput" class="form-control" type="text" name="myCountry" placeholder="Tags">
+                <script>
+                    $(document).on('click', '.dropdown-menu li a', function() {
+                        $(this).parent().parent().parent().find('.datebox').val($(this).html());
+                    });
+
+                </script>
+
+
+
+
+
+                <div class="autocomplete">
+                    <input id="myInput" class="form-control" type="text" name="myCountry" placeholder="Tags">
+                </div>
+
+
+                <script language="javascript" type="text/javascript">
+                    function addText() {
+                        var newtext = document.advertiserForm.myCountry.value + " ";
+                        document.advertiserForm.hashTags.value += newtext
+                        document.advertiserForm.myCountry.value = "";
+                    }
+
+                </script>
+
+
+                <br>
+                <textarea class="form-control" id="hashTags" rows="4" cols="50" type="text" name="hashTags"></textarea>
+
+                <script>
+                    function autocomplete(inp, arr) {
+                        /*the autocomplete function takes two arguments,
+                        the text field element and an array of possible autocompleted values:*/
+                        var currentFocus;
+                        /*execute a function when someone writes in the text field:*/
+                        inp.addEventListener("input", function(e) {
+                            var a, b, i, val = this.value;
+                            /*close any already open lists of autocompleted values*/
+                            closeAllLists();
+                            if (!val) {
+                                return false;
+                            }
+                            currentFocus = -1;
+                            /*create a DIV element that will contain the items (values):*/
+                            a = document.createElement("DIV");
+                            a.setAttribute("id", this.id + "autocomplete-list");
+                            a.setAttribute("class", "autocomplete-items");
+                            /*append the DIV element as a child of the autocomplete container:*/
+                            this.parentNode.appendChild(a);
+                            /*for each item in the array...*/
+                            for (i = 0; i < arr.length; i++) {
+                                /*check if the item starts with the same letters as the text field value:*/
+                                if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                                    /*create a DIV element for each matching element:*/
+                                    b = document.createElement("DIV");
+                                    /*make the matching letters bold:*/
+                                    b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                                    b.innerHTML += arr[i].substr(val.length);
+                                    /*insert a input field that will hold the current array item's value:*/
+                                    b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                                    /*execute a function when someone clicks on the item value (DIV element):*/
+                                    b.addEventListener("click", function(e) {
+                                        /*insert the value for the autocomplete text field:*/
+                                        inp.value = this.getElementsByTagName("input")[0].value;
+                                        /*close the list of autocompleted values,
+                                        (or any other open lists of autocompleted values:*/
+                                        closeAllLists();
+                                    });
+                                    a.appendChild(b);
+                                }
+                            }
+                        });
+                        /*execute a function presses a key on the keyboard:*/
+                        inp.addEventListener("keydown", function(e) {
+                            var x = document.getElementById(this.id + "autocomplete-list");
+                            if (x) x = x.getElementsByTagName("div");
+                            if (e.keyCode == 40) {
+                                /*If the arrow DOWN key is pressed,
+                                increase the currentFocus variable:*/
+                                currentFocus++;
+                                /*and and make the current item more visible:*/
+                                addActive(x);
+                            } else if (e.keyCode == 38) { //up
+                                /*If the arrow UP key is pressed,
+                                decrease the currentFocus variable:*/
+                                currentFocus--;
+                                /*and and make the current item more visible:*/
+                                addActive(x);
+                            } else if (e.keyCode == 13) {
+                                /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                                e.preventDefault();
+                                if (currentFocus > -1) {
+                                    /*and simulate a click on the "active" item:*/
+                                    if (x) x[currentFocus].click();
+                                }
+                            }
+                        });
+
+                        function addActive(x) {
+                            /*a function to classify an item as "active":*/
+                            if (!x) return false;
+                            /*start by removing the "active" class on all items:*/
+                            removeActive(x);
+                            if (currentFocus >= x.length) currentFocus = 0;
+                            if (currentFocus < 0) currentFocus = (x.length - 1);
+                            /*add class "autocomplete-active":*/
+                            x[currentFocus].classList.add("autocomplete-active");
+                        }
+
+                        function removeActive(x) {
+                            /*a function to remove the "active" class from all autocomplete items:*/
+                            for (var i = 0; i < x.length; i++) {
+                                x[i].classList.remove("autocomplete-active");
+                            }
+                        }
+
+                        function closeAllLists(elmnt) {
+                            /*close all autocomplete lists in the document,
+                            except the one passed as an argument:*/
+                            var x = document.getElementsByClassName("autocomplete-items");
+                            for (var i = 0; i < x.length; i++) {
+                                if (elmnt != x[i] && elmnt != inp) {
+                                    x[i].parentNode.removeChild(x[i]);
+                                }
+                            }
+                        }
+                        /*execute a function when someone clicks in the document:*/
+                        document.addEventListener("click", function(e) {
+                            closeAllLists(e.target);
+                        });
+                    }
+
+                    /*An array containing all the country names in the world:*/
+                    var countries = ["360", "500", "Abdomen", "About", "Accessories", "Accessory", "Adaptation", "Adidas", "Adidasclothes", "Advertising", "Aegean", "Alienware", "American", "Analysis", "And", "Animal", "Apparel", "Applebees", "Area", "Arena", "Armrest", "Assets", "Atmospheric", "Audi", "Audience", "Automotive", "Bag", "Ball", "Banknote", "Banner", "Basketball", "Bbq", "Bear", "Beauty", "Beaver", "Beige", "Bistro", "Black", "Black-and-white", "Blackandwhite", "Blue", "Bottle", "Bowl", "Brand", "Brunch", "Budget", "Bugatti", "Building", "Bumper", "Burger", "Byredo", "Byredoperfume", "Caci", "Cafe", "Calculator", "Calligraphy", "Camera", "Cameras", "Canidae", "Cap", "Car", "Care", "Carnivore", "Cash", "Cat", "Cats", "Chair", "Challenge", "Challenger", "Chanel", "Cheek", "Chevrolet", "Chimpanzee", "Clothes", "Clothing", "Comfort", "Common", "Communication", "Communications", "Competition", "Component", "Computer", "Concept", "Console", "Controller", "Cool", "Corvette", "Cosmetics", "Coupé", "Court", "Croptop", "Crossover", "Crossword", "Crowd", "Currency", "Cute", "Data", "Denim", "Design", "Device", "Diagram", "Dining", "Diptyque", "Diptyquecandle", "Dodge", "Doge", "Dollar", "Domestic", "Donuts", "Due", "Dunkin", "Eat", "Eight-man", "Electric", "Electronic", "Electronics", "Equipment", "Estate", "Event", "Eye", "Eyebrow", "Eyewear", "Facade", "Face", "Fan", "Fashion", "Feature", "Felidae", "Field", "Finance", "Financialplanning", "Finger", "Fleek", "Floor", "Flooring", "Flower", "Fluid", "Fondue", "Font\n", "Football", "For", "Forehead", "Forsale", "Fox", "Fresh", "Frique", "Friqueypsy", "Furniture", "Gadget", "Game", "Games", "Gaming", "Gamingchair", "Gamingconsole", "Gamingmonster", "Gamingmouse", "Gb/go", "Gear", "Gesture", "Glass", "Glasses", "Graphics", "Green", "Grille", "Group", "Grouplinkedin", "Gucci", "Hair", "Hairstyle", "Haleybeiber", "Hand", "Handling", "Handwriting", "Hardware", "Helmet", "Holy", "Home", "Homeforsale", "Homework", "Hood", "Hop", "House", "I", "Ice", "Icon", "Ihop", "Influencer", "Input", "Instrument", "Interior", "Iphone", "Ipod", "It", "Jacket", "Jeans", "Jersey", "Jo", "Jomalone", "Jomaloneperfume", "Joystick", "King", "Kit", "Kitchen", "Kitten", "Kylieee", "Kyliejenner", "Label", "Land", "Laptop", "Leaf", "Learning", "Line", "Linkedin", "Lip", "Liquid", "Lobster", "Logo", "Lunch", "Luxury", "Machine", "Make", "Makeup", "Malone", "Mammal", "Management", "Mansion", "Marine", "Material", "Mcdonalds", "Mclaren", "Meal", "Medium-sized", "Melling", "Melting", "Metal", "Mid-size", "Mil", "Mini", "Mitchell", "Mixed-use", "Mobile", "Model", "Money", "Money.", "Moneyandfinance", "Moneymanagement", "More", "Motor", "Mouse", "Mouth", "Moves", "Muscle", "Mustelidae", "Navel", "Neck", "Netbook", "New", "Newperfumes", "Newtee", "Newvideoalert", "Nike", "Nissan", "North", "Nose", "Office", "On", "Opel", "Operations", "Optics", "Orada", "Organism", "Otter", "Ouaihaircare", "Out", "Outback", "Outlet", "Output", "P1", "P1", "Palm", "Part", "Performance", "Perfume", "Perfumefaves", "Perfumes", "Peripheral", "Personal", "Phenomenon", "Phone", "Photo", "Photography", "Plant", "Player", "Playstation", "Pnr", "Pnrrealtyoperations", "Po", "Polar", "Portable", "Pot", "Prada", "Pradaperfume", "Primate", "Product", "Property", "Protective", "Puma", "Real", "Realty", "Realtyrealty", "Red", "Reds", "Remax", "Repeat", "Replica", "Replicaperfume", "Residential", "Restaurant", "Restaurants", "Richer", "Richerdue", "River", "Roof", "Room", "Rugby", "Sale", "Sale", "Saving", "Screen", "Sea", "Shay", "Shelfie", "Shirt", "Shoot", "Short-haired", "Shoulder", "Siding", "Sign", "Signage", "Skin", "Skincare", "Sleeve", "Small", "Smartphone", "Snout", "Soccer", "Solvent", "Sonic", "Sport", "Sports", "Sportsbra", "Sportswear", "Sprint", "Stadium", "Starbucks", "Steel", "Stingray", "Storage", "Store", "Street", "Subway", "Sunglasses", "Sunnies", "Super", "Supercar", "Suv", "Swift", "Symbol", "T-shirt", "Table", "Tackle", "Team", "Technology", "Telephone", "Terrestrial", "Text", "That", "The", "Throne", "Tips", "Tipsthat", "To", "Toccaperfume", "Tomake", "Tomford", "Tomfordperfume", "Top", "Touch", "Touchpad", "Tournament", "Tree", "Trinity", "True", "Tshirt", "Undergarment", "Use", "Utility", "V6", "Vehicle", "Venue", "Versace", "Vertebrate", "Video", "Vision", "Waist", "While", "Whiskers", "Wii", "Wildlife", "Will", "Wirehair", "Wrinkle", "Writing", "Xbox", "Xboxgaming", "Xboxone", "Xboxone500", "You", "Ypsy", "Zoella", "Zoellagucci"];
+
+
+                    /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+                    autocomplete(document.getElementById("myInput"), countries);
+
+                </script>
+
+
+
+
+                <br>
+                <input class="form-control" type="text" placeholder="Minimum Followers" name="minFollowers">
+                <br>
+
+
+                <input type="button" class="btn btn-secondary" value="Add new Tag" onClick="addText();">
+
+                <button class="btn btn-primary" type="submit">Get Results</button>
+
+
+        </form>
         </div>
-
-       
-        <script language="javascript" type="text/javascript">
-             function addText() {
-                var newtext = document.advertiserForm.myCountry.value + " ";
-                document.advertiserForm.hashTags.value += newtext
-                document.advertiserForm.myCountry.value = "";
-             }
-        </script>
-
-
-      <br>
-        <textarea class="form-control" id="hashTags" rows="4" cols="50" type="text" name="hashTags"  ></textarea>
-
-         <script>
-            function autocomplete(inp, arr) {
-                /*the autocomplete function takes two arguments,
-                the text field element and an array of possible autocompleted values:*/
-                var currentFocus;
-                /*execute a function when someone writes in the text field:*/
-                inp.addEventListener("input", function(e) {
-                    var a, b, i, val = this.value;
-                    /*close any already open lists of autocompleted values*/
-                    closeAllLists();
-                    if (!val) { return false;}
-                    currentFocus = -1;
-                    /*create a DIV element that will contain the items (values):*/
-                    a = document.createElement("DIV");
-                    a.setAttribute("id", this.id + "autocomplete-list");
-                    a.setAttribute("class", "autocomplete-items");
-                    /*append the DIV element as a child of the autocomplete container:*/
-                    this.parentNode.appendChild(a);
-                    /*for each item in the array...*/
-                    for (i = 0; i < arr.length; i++) {
-                        /*check if the item starts with the same letters as the text field value:*/
-                        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-                            /*create a DIV element for each matching element:*/
-                            b = document.createElement("DIV");
-                            /*make the matching letters bold:*/
-                            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-                            b.innerHTML += arr[i].substr(val.length);
-                            /*insert a input field that will hold the current array item's value:*/
-                            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-                            /*execute a function when someone clicks on the item value (DIV element):*/
-                            b.addEventListener("click", function(e) {
-                                /*insert the value for the autocomplete text field:*/
-                                inp.value = this.getElementsByTagName("input")[0].value;
-                                /*close the list of autocompleted values,
-                                (or any other open lists of autocompleted values:*/
-                                closeAllLists();
-                            });
-                            a.appendChild(b);
-                        }
-                    }
-                });
-                /*execute a function presses a key on the keyboard:*/
-                inp.addEventListener("keydown", function(e) {
-                    var x = document.getElementById(this.id + "autocomplete-list");
-                    if (x) x = x.getElementsByTagName("div");
-                    if (e.keyCode == 40) {
-                        /*If the arrow DOWN key is pressed,
-                        increase the currentFocus variable:*/
-                        currentFocus++;
-                        /*and and make the current item more visible:*/
-                        addActive(x);
-                    }
-                    else if (e.keyCode == 38) { //up
-                        /*If the arrow UP key is pressed,
-                        decrease the currentFocus variable:*/
-                        currentFocus--;
-                        /*and and make the current item more visible:*/
-                        addActive(x);
-                    }
-                    else if (e.keyCode == 13) {
-                        /*If the ENTER key is pressed, prevent the form from being submitted,*/
-                        e.preventDefault();
-                        if (currentFocus > -1) {
-                            /*and simulate a click on the "active" item:*/
-                            if (x) x[currentFocus].click();
-                        }
-                    }
-                });
-                function addActive(x) {
-                    /*a function to classify an item as "active":*/
-                    if (!x) return false;
-                    /*start by removing the "active" class on all items:*/
-                    removeActive(x);
-                    if (currentFocus >= x.length) currentFocus = 0;
-                    if (currentFocus < 0) currentFocus = (x.length - 1);
-                    /*add class "autocomplete-active":*/
-                    x[currentFocus].classList.add("autocomplete-active");
-                }
-                function removeActive(x) {
-                    /*a function to remove the "active" class from all autocomplete items:*/
-                    for (var i = 0; i < x.length; i++) {
-                        x[i].classList.remove("autocomplete-active");
-                    }
-                }
-                function closeAllLists(elmnt) {
-                    /*close all autocomplete lists in the document,
-                    except the one passed as an argument:*/
-                    var x = document.getElementsByClassName("autocomplete-items");
-                    for (var i = 0; i < x.length; i++) {
-                        if (elmnt != x[i] && elmnt != inp) {
-                            x[i].parentNode.removeChild(x[i]);
-                        }
-                    }
-                }
-                /*execute a function when someone clicks in the document:*/
-                document.addEventListener("click", function (e) {
-                    closeAllLists(e.target);
-                });
-            }
-
-            /*An array containing all the country names in the world:*/
-                        var countries = ["360","500","Abdomen","About","Accessories","Accessory","Adaptation","Adidas","Adidasclothes","Advertising","Aegean","Alienware","American","Analysis","And","Animal","Apparel","Applebees","Area","Arena","Armrest","Assets","Atmospheric","Audi","Audience","Automotive","Bag","Ball","Banknote","Banner","Basketball","Bbq","Bear","Beauty","Beaver","Beige","Bistro","Black","Black-and-white","Blackandwhite","Blue","Bottle","Bowl","Brand","Brunch","Budget","Bugatti","Building","Bumper","Burger","Byredo","Byredoperfume","Caci","Cafe","Calculator","Calligraphy","Camera","Cameras","Canidae","Cap","Car","Care","Carnivore","Cash","Cat","Cats","Chair","Challenge","Challenger","Chanel","Cheek","Chevrolet","Chimpanzee","Clothes","Clothing","Comfort","Common","Communication","Communications","Competition","Component","Computer","Concept","Console","Controller","Cool","Corvette","Cosmetics","Coupé","Court","Croptop","Crossover","Crossword","Crowd","Currency","Cute","Data","Denim","Design","Device","Diagram","Dining","Diptyque","Diptyquecandle","Dodge","Doge","Dollar","Domestic","Donuts","Due","Dunkin","Eat","Eight-man","Electric","Electronic","Electronics","Equipment","Estate","Event","Eye","Eyebrow","Eyewear","Facade","Face","Fan","Fashion","Feature","Felidae","Field","Finance","Financialplanning","Finger","Fleek","Floor","Flooring","Flower","Fluid","Fondue","Font\n","Football","For","Forehead","Forsale","Fox","Fresh","Frique","Friqueypsy","Furniture","Gadget","Game","Games","Gaming","Gamingchair","Gamingconsole","Gamingmonster","Gamingmouse","Gb/go","Gear","Gesture","Glass","Glasses","Graphics","Green","Grille","Group","Grouplinkedin","Gucci","Hair","Hairstyle","Haleybeiber","Hand","Handling","Handwriting","Hardware","Helmet","Holy","Home","Homeforsale","Homework","Hood","Hop","House","I","Ice","Icon","Ihop","Influencer","Input","Instrument","Interior","Iphone","Ipod","It","Jacket","Jeans","Jersey","Jo","Jomalone","Jomaloneperfume","Joystick","King","Kit","Kitchen","Kitten","Kylieee","Kyliejenner","Label","Land","Laptop","Leaf","Learning","Line","Linkedin","Lip","Liquid","Lobster","Logo","Lunch","Luxury","Machine","Make","Makeup","Malone","Mammal","Management","Mansion","Marine","Material","Mcdonalds","Mclaren","Meal","Medium-sized","Melling","Melting","Metal","Mid-size","Mil","Mini","Mitchell","Mixed-use","Mobile","Model","Money","Money.","Moneyandfinance","Moneymanagement","More","Motor","Mouse","Mouth","Moves","Muscle","Mustelidae","Navel","Neck","Netbook","New","Newperfumes","Newtee","Newvideoalert","Nike","Nissan","North","Nose","Office","On","Opel","Operations","Optics","Orada","Organism","Otter","Ouaihaircare","Out","Outback","Outlet","Output","P1","P1","Palm","Part","Performance","Perfume","Perfumefaves","Perfumes","Peripheral","Personal","Phenomenon","Phone","Photo","Photography","Plant","Player","Playstation","Pnr","Pnrrealtyoperations","Po","Polar","Portable","Pot","Prada","Pradaperfume","Primate","Product","Property","Protective","Puma","Real","Realty","Realtyrealty","Red","Reds","Remax","Repeat","Replica","Replicaperfume","Residential","Restaurant","Restaurants","Richer","Richerdue","River","Roof","Room","Rugby","Sale","Sale","Saving","Screen","Sea","Shay","Shelfie","Shirt","Shoot","Short-haired","Shoulder","Siding","Sign","Signage","Skin","Skincare","Sleeve","Small","Smartphone","Snout","Soccer","Solvent","Sonic","Sport","Sports","Sportsbra","Sportswear","Sprint","Stadium","Starbucks","Steel","Stingray","Storage","Store","Street","Subway","Sunglasses","Sunnies","Super","Supercar","Suv","Swift","Symbol","T-shirt","Table","Tackle","Team","Technology","Telephone","Terrestrial","Text","That","The","Throne","Tips","Tipsthat","To","Toccaperfume","Tomake","Tomford","Tomfordperfume","Top","Touch","Touchpad","Tournament","Tree","Trinity","True","Tshirt","Undergarment","Use","Utility","V6","Vehicle","Venue","Versace","Vertebrate","Video","Vision","Waist","While","Whiskers","Wii","Wildlife","Will","Wirehair","Wrinkle","Writing","Xbox","Xboxgaming","Xboxone","Xboxone500","You","Ypsy","Zoella","Zoellagucci"];
-    
-
-            /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-            autocomplete(document.getElementById("myInput"), countries);
-        </script>
-
-
-
-
-        <br>
-        <input class="form-control" type="text" placeholder="Minimum Followers" name="minFollowers">
-        <br>
-        
-      
-    <input type="button" class="btn btn-secondary" value="Add new Tag" onClick="addText();">
-
-    <button class="btn btn-primary" type="submit" >Get Results</button>
-    
-    
-    </form>
-    </div>
-    </article>
+</article>
 
 
 
