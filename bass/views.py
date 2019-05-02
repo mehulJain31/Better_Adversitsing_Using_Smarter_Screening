@@ -203,6 +203,8 @@ def showResults(request):
 
 	topList = match.query(hashTags)
 
+	print('topList', topList)
+
 	userName=[]
 	name=[]
 	bio=[]
@@ -224,9 +226,21 @@ def showResults(request):
 		matchScores.append(matchScore*100)
 		if "profile_pic_url" in influencer:
 			profilePicList.append(influencer["profile_pic_url"])
-                
+
+		
+	print('\n\nstuff')
+	print(userName)
+	print(matchScores)
+	print(profilePicList)
+	print(name)
+	print(bio)
+	print(followers)
+	print(userURL)
+
 	context = {
-		'data': zip(userName,name,bio,followers,userURL), # eric, add , matchScores, profilePicList here and take that to show results
+		'data': zip(userName,name,bio,followers,userURL,matchScores), # eric, add , matchScores, profilePicList here and take that to show results
 		'something': 'hey guys'
 	}
+
+	print('context' , context['data'])
 	return render(request, 'bass/showResults.html', context)

@@ -17,10 +17,10 @@
 {% endfor %}
 {% endcomment %}
 
-
+<br><br>
 <article class="media content-section"> <h5>Matches</h5> </article>
 
-{% for userName,name,bio,followers,userURL in data %}
+{% for userName,name,bio,followers,userURL,matchScores in data %}
 <article class="media content-section">
 	<div class="media-body">
 		<div class="article-metadata">
@@ -30,16 +30,16 @@
 		</div>
 		    
 		
-		<img src="https://scontent.cdninstagram.com/vp/9ee0a457396f08f8030cdbe4660e585f/5D77C791/t51.2885-19/s150x150/57899672_403708487027328_7030130730701160448_n.jpg?_nc_ht=scontent.cdninstagram.com" style="height:60px" />
+		<img src=" {{ profilepic }} " style="height:60px" />
 
 		<br>
 		
 		<small class="text-muted">Bio: {{ bio }}</small><br>
-		<small class="text-muted">Match rating: 78%</small><br>
+		<small class="text-muted">Match rating: {{ matchScores }} </small><br>
 		
 		<div class="progress">
-    		<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" width="50%" color="black" style="width:70%">
-      			<span class="sr-only">70% Complete</span>
+    		<div class="progress-bar" role="progressbar" aria-valuenow="{{matchScores}}" aria-valuemin="0" aria-valuemax="100" width="50%" color="black" style="width:{{matchScores}}%">
+      			<span class="sr-only">50% Complete</span>
     		</div>
   		</div>
 
