@@ -15,7 +15,7 @@ from .Influencer_MongoDB import InfluencerDB
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'client_secrets.json'
 
 #---------#---------#---------#---------#---------#--------#
-def home(request):
+def recommend(request):
 
 	tags = []
 	tag = []
@@ -177,7 +177,7 @@ def googleApiCall(urls) :
 def about(request):
 	return render(request, 'bass/about.html', {'title': 'About'})
 
-def recommend(request):
+def home(request):
 
 	return render(request, 'bass/recommend.html',{'title':'Recommend'})
 

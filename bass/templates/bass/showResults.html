@@ -1,24 +1,13 @@
 {% extends "bass/base.html" %}
 
 {% block content %}
+{% load static %} 
 
 
 
-{% comment %}
-{% for userName,name,bio,followers,userURL in data %}
-<h7><img src="http://bit.ly/2Dbuyte" alt="logo" style="width:25px;height:25px;"/> Username: {{ userName }}</h7><br>
-<h7><img src="http://bit.ly/2Uz6smE" alt="logo" style="width:22px;height:22px;" /> Name: {{ name }}</h7><br>
-<h7><img src="http://bit.ly/2KA0VYw" alt="logo" style="width:25px;height:25px;" /> Bio: {{ bio }}</h7><br>
-<h7><img src="http://bit.ly/2GndMcz" alt="logo" style="width:26px;height:26px;"/>Followers: {{ followers }}</h7><br>
-<h7><img src="http://bit.ly/2Iz56Bs" alt="logo" style="width:26px;height:26px;" /> <a href={{userURL}}>Instagram Link </a></h7>
-<br>
-<br>
-
-{% endfor %}
-{% endcomment %}
 
 <br><br>
-<article class="media content-section"> <h5>Matches</h5> </article>
+
 
 {% for userName,name,bio,followers,userURL,matchScores in data %}
 <article class="media content-section">
@@ -53,16 +42,62 @@
 
 
 <div>
-  <div class="row">
-    <div class="col-md-6 thing">hey</div>
-    <div class="col-md-6 thing">hey</div>
+
+	<div style="text-align:center">
+  <h2>Better Advertising</h2>
+  <p>Based off your search, these profiles best match something</p>
   </div>
-  <div class="row">
-    <div class="col-md-6 thing">hey</div>
-    <div class="col-md-6 thing">hey</div>
-  </div>
+  	
+  	<div class="row">
+    	<div class="col-6 thing">
+    		<div class="round">
+    			<img id="outer" src="{% static 'bass/one.png' %}"/>
+    			<div class="thing2"> hey </div>
+    		</div>
+    	</div>
+
+
+  		<div class="col-6 thing">
+  			<div class="round">
+    			<img src="{% static 'bass/three.png' %}"/>
+    			<div class="thing2"> hey </div>
+    		</div>
+  		</div>
+ 	</div>
+
+	<div class="row">
+    	<div class="col-6 thing">
+    		<div class="round">
+    			<img src="{% static 'bass/three.png' %}"/>
+    			<div class="thing2"> hey </div>
+    		</div>
+    	</div>
+    	<div class="col-6 thing"></div>
+  	</div>
 </div>
 
+
+
+<script>
+	
+	$( document ).ready(function() {
+    
+
+		console.log('hey im loaded')
+			
+		$( "#outer" ).mouseenter(function() {
+	  		$( "#outer" ).animate({
+			    opacity: 0.25,
+			    left: "+=50",
+			    height: "toggle"
+			  }, 5000, function() {
+			    console.log('hey2')
+	  		});
+		});
+
+	});
+
+</script>
 
 
 

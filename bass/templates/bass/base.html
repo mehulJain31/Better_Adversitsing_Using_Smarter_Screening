@@ -13,6 +13,9 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+    <script type="text/javascript" src="{% static 'bass/jquery-3.4.1.js' %}">
+</script> 
+
 
 	{% if title %}
 		<title>Django Site - {{ title }} </title>
@@ -30,24 +33,26 @@
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
 	      <span class="navbar-toggler-icon"></span>
 	      </button>
+	      
+
 	      <div class="collapse navbar-collapse" id="navbarToggle">
 	        <div class="navbar-nav mr-auto">
-	            <a class="nav-item nav-link" href="{% url 'bass-home' %}">Home2</a> 
-	            <span class="nav-item nav-link"> / </span>
+	            <a class="nav-item nav-link" href="{% url 'bass-home' %}">Home</a> 
+	            
 				<a class="nav-item nav-link" href="{% url 'bass-about' %}">About</a>
-				<span class="nav-item nav-link"> / </span>
+				
 				<a class="nav-item nav-link" href="{% url 'bass-recommend' %}">Recommend</a>
 
 	        </div>
 	        <!-- Navbar Right Side -->
 
-	        <!-- 
+	        
 	        <div class="navbar-nav">
-	          <a class="nav-item nav-link" href="#">Login</a>
-	          <a class="nav-item nav-link" href="#">Register</a>
+	          <a class="nav-item nav-link" href="#">*white logo*</a>
+	         
 	        </div>
 
-	    	-->
+	    
 
 	      </div>
 	    </div>
@@ -55,11 +60,11 @@
 	</header>
 
 	
-	<main style="width:40%" role="main" class="container">
+	<main style="width:65%; margin:auto" role="main">
 		<br> 
 		<br>
 		<br>
-		<br>
+		
 	 
 	    <div>
 	      {% block content %}{% endblock %}

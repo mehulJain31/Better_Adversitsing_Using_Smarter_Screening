@@ -1,12 +1,46 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+
 body {
   /* background-image: url("gradient.jpg"); */
-  background-color:#f7f7f7;
+  background-color:#f0f0f0;
 }
 
 .smaller {
 
   width:20px;
   height:20px;
+}
+
+.thing {
+
+  
+  
+  padding:18px;
+
+
+}
+
+.round {
+  
+
+  padding:10px;
+  overflow: hidden;
+  border-radius: 45px;
+}
+
+.thing2 {
+
+  background-color:white;
+  height:150px;
+
+}
+
+
+.thing img{
+
+  width: 100%;
+
+  
 }
 
 
@@ -19,7 +53,7 @@ ul {
 }
 
 .bg-steel {
-  background-color: #000000;
+  background-color: #FFFFFF;
 }
 
 .smalllogo {
@@ -28,11 +62,15 @@ ul {
 }
 
 .site-header .navbar-nav .nav-link {
-  color: #cbd5db;
+  color: #999999;
+  font-weight:bold;
+  font-family:Quicksand;
+  font-size:20px;
+  padding-right:35px;
 }
 
 .site-header .navbar-nav .nav-link:hover {
-  color: #ffffff;
+  color: #f2f2f2;
 }
 
 .site-header .navbar-nav .nav-link.active {
