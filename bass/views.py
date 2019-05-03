@@ -131,7 +131,7 @@ def instaApiCall():
 
 	
 	# gets 5 most recent pics 
-	for x in range(5) :
+	for x in range(3) :
 		urls.append(instaData['data'][x]['images']['low_resolution']['url'])
 	
 		if ((instaData['data'][x]['caption']) is not None) :
@@ -223,7 +223,7 @@ def showResults(request):
        
 		#-----------Divyanshu: changes below this line---------
 		userURL.append("https://www.instagram.com/"+influencer['username']+"/")
-		matchScores.append(matchScore*100)
+		matchScores.append((int)(matchScore*100))
 		if "profile_pic_url" in influencer:
 			profilePicList.append(influencer["profile_pic_url"])
 

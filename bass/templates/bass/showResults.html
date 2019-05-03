@@ -8,6 +8,7 @@
 <div style="padding:15px; text-align:center">
         <h2>Better Advertising</h2>
         <p>Based off your search, these profiles best match something</p>
+
     </div>
 
 
@@ -15,22 +16,23 @@
 {% for userName,name,bio,followers,userURL,matchScores,profilePicList in data %}
 
 
-
-	
-
+   
 
 	{% if forloop.counter0|divisibleby:2 %}
 		<div class="row">
+
   			<div class="col-6 thing">
   				<div class="round">
-                <img id="outer" src="{% static 'bass/one.png' %}" />
+                <a href="http://www.instagram.com/{{ userName}}">
+                <img class="image" src="{{ profilePicList }}" />
+                </a>
                 <div id="outer2" class="thing2">
                     <p><strong>@{{userName}}</strong></p>
                     <p>{{name}} - {{followers}} followers
                     <br>
                     <br>
                         <div class="progress">
-                            <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{matchScores}}" aria-valuemin="0" aria-valuemax="100" width="50%" style="width:{{matchScores}}%">{{matchScores}}
+                            <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{matchScores}}" aria-valuemin="0" aria-valuemax="100" width="50%" style="width:{{matchScores}}%">{{matchScores}}%
 
                             </div>
                         </div>
@@ -42,8 +44,14 @@
 		
 	{% else %}
 			<div class="col-6 thing">
-				<div class="round">
-                <img class="image" src="{% static 'bass/three.png' %}" />
+				
+                
+                <div class="round">
+
+
+                    <a href="http://www.instagram.com/{{ userName}}">
+                        <img class="image" src="{{ profilePicList }}" />
+                    </a>
                 
 
                 <div class="overlay">
@@ -56,7 +64,8 @@
                     <br>
                     <br>
                         <div class="progress">
-                            <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{matchScores}}" aria-valuemin="0" aria-valuemax="100" width="50%" style="width:{{matchScores}}%">{{matchScores}}</div>
+                            <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{matchScores}}" aria-valuemin="0" aria-valuemax="100" width="50%" style="width:{{matchScores}}%">{{matchScores}}%
+                            </div>
                         </div>
                 </div>
             </div>

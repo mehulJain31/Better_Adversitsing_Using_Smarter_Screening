@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import url('https://fonts.googleapis.com/css?family=Dancing+Script');
 
 body {
   background-color:#f0f0f0;
@@ -10,6 +11,10 @@ body {
   padding:10px;
   overflow:hidden;
   border-radius: 45px;
+}
+
+.logoFont {
+  font-family: 'Dancing Script', cursive;
 }
 
 progress,                          /* Firefox  */ 
@@ -111,7 +116,7 @@ ul {
 }
 
 .bg-steel {
-  background-color: #FFFFFF;
+  background-color: white;
 }
 
 
@@ -119,7 +124,7 @@ ul {
   color: #999999;
   font-weight:bold;
   font-family:Quicksand;
-  font-size:20px;
+  font-size:17px;
   
   float:left;
 }
@@ -187,3 +192,14 @@ a.article-title:hover {
 .account-heading {
   font-size: 2.5rem;
 }
+
+
+
+/* green squares */
+
+
+
+
+
+
+
