@@ -16,11 +16,9 @@
     <script type="text/javascript" src="{% static 'bass/jquery-3.4.1.js' %}"></script> 
 
 
-	{% if title %}
-		<title>Django Site - {{ title }} </title>
-	{% else %}
-		<title>Better Advertising Smarter Screening</title>
-	{% endif %}
+	
+	<title>Better Advertising Smarter Screening</title>
+	
 
 </head>
 <body>
@@ -28,7 +26,7 @@
 	<header class="site-header">
 	  <nav class="navbar navbar-expand-md bg-steel fixed-top">
 	    <div class="container">
-	      <!-- <a class="navbar-brand mr-4" href="{% url 'bass-home' %}"><img class="smalllogo" src="{% static 'bass/logo.png' %}"/></a> -->
+	      
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
 	      <span class="navbar-toggler-icon"></span>
 	      </button>
@@ -36,10 +34,10 @@
 
 	      <div class="collapse navbar-collapse" id="navbarToggle">
 	        <div class="navbar-nav mr-auto">
-	            <a class="nav-item nav-link" href="{% url 'bass-home' %}">Home</a> 
-	            
+	            <a class="nav-item nav-link" href="{% url 'bass-home' %}">Home</a>
+	            <span class="nav-item nav-link"> | </span>
 				<a class="nav-item nav-link" href="{% url 'bass-about' %}">About</a>
-				
+				<span class="nav-item nav-link"> | </span>
 				<a class="nav-item nav-link" href="{% url 'bass-recommend' %}">Recommend</a>
 
 	        </div>
@@ -47,7 +45,7 @@
 
 	        
 	        <div class="navbar-nav">
-	          <a style="font-family: 'Dancing Script', cursive" class="nav-item nav-link" href="#">B A S S</a>
+	          <a style="font-family: 'Dancing Script', cursive; font-size:30px" class="nav-item nav-link" href="#">Bass</a>
 	         
 	        </div>
 
