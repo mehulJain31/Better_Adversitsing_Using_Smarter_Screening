@@ -2,12 +2,19 @@
 
 
 
+<script type="text/javascript" >
+    $( document ).ready(function() {
+        $('#page4').css('color', '#66D0B3');
+        $('#page4').css('font-weight', 'bold');
+    });
+</script>
+
 
 <br><br> 
 
 <div style="padding:15px; text-align:center">
         <h2><strong>Better Advertising</strong></h2>
-        <p>Based off of your search, these profiles best match the tags you entered</p>
+        <p style="font-size:18px">Based off of your search, these profiles best match the tags you have entered</p>
 
     </div>
 
@@ -26,10 +33,11 @@
                 <a href="http://www.instagram.com/{{ userName}}">
                 <img class="image" src="{{ profilePicList }}" />
                 </a>
+                
                 <div id="outer2" class="thing2">
                     <h5 style="color:black"><strong>@{{userName}}</strong></h5>
-                    <p>{{name}} - {{followers}} followers
-                    <br>
+                    <p><strong>{{name}} - {{followers}} followers</strong></p>
+                   
                     <br>
                         <div class="progress">
                             <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{matchScores}}" aria-valuemin="0" aria-valuemax="100" width="50%" style="width:{{matchScores}}%">{{matchScores}}%
@@ -52,6 +60,7 @@
                     <a href="http://www.instagram.com/{{ userName}}">
                         <img class="image" src="{{ profilePicList }}" />
                     </a>
+
                 
 
                 <div class="overlay">
@@ -59,9 +68,9 @@
                 </div>
 
                 <div class="thing2">
-                    <p><strong>@{{userName}}</strong></p>
-                    <p>{{name}} - {{followers}} followers
-                    <br>
+                    <h5 style="color:black"><strong>@{{userName}}</strong></h5>
+                    <p>{{name}} - {{followers}} followers</p>
+                  
                     <br>
                         <div class="progress">
                             <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{matchScores}}" aria-valuemin="0" aria-valuemax="100" width="50%" style="width:{{matchScores}}%">{{matchScores}}%
